@@ -1,0 +1,10 @@
+ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.active {
+  border: 1px solid red;
+}

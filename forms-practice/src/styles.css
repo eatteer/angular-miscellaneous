@@ -1,0 +1,12 @@
+input.ng-invalid,
+select.ng-invalid {
+  border: 1px solid red;
+}
+
+input.ng-invalid:focus {
+  outline: 1px solid red;
+}
+
+.block {
+  display: block;
+}

@@ -1,0 +1,5 @@
+<form [formGroup]="form">
+  <app-counter formControlName="counter"></app-counter>
+</form>
+<pre>{{ form.value | json }}</pre>
+<pre>{{ counter.errors | json }}</pre>

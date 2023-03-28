@@ -1,0 +1,27 @@
+<h2>Local request</h2>
+<ng-container *ngIf="{ user: user$ | async, userError: userError$ | async } as vm">
+  <!-- There is no user, but there is no error, so user is loading -->
+  <div *ngIf="!vm.user && !vm.userError">Loading...</div>
+
+  <!-- There are error, so user observable is cancelled  -->
+  <div *ngIf="vm.userError">{{ vm.userError.message }}</div>
+
+  <!-- There is user -->
+  <div *ngIf="vm.user">{{ vm.user }}</div>
+</ng-container>
+
+<h2>API request</h2>
+<!-- There are no users, but there is no error, so users are loading -->
+<div *ngIf="!(placeholderUsers$ | async) && !(placeholderUsersError$ | async)">
+  Loading...
+</div>
+
+<!-- There are error, so users observable is cancelled -->
+<div *ngIf="placeholderUsersError$ | async as error">{{ error.message }}</div>
+
+<!-- There are users -->
+<div *ngIf="placeholderUsers$ | async as users">
+  <ul>
+    <li *ngFor="let user of users">{{ user.name }}</li>
+  </ul>
+</div>

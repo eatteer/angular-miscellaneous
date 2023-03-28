@@ -1,0 +1,5 @@
+<ul>
+  <li *ngFor="let i of pages" [class.active]="currentPage === i">
+    <button (click)="changePage(i)">{{ i }}</button>
+  </li>
+</ul>

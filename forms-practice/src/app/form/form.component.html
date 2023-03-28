@@ -1,0 +1,79 @@
+<h2>Form</h2>
+<form [formGroup]="form">
+  <!-- Name form group -->
+  <section formGroupName="name">
+    <h2>Name</h2>
+    <!-- First -->
+    <div>
+      <input
+        class="block"
+        type="text"
+        placeholder="First"
+        formControlName="first"
+      />
+      <form-errors [control]="name.controls.first">
+        <form-error error="required">First name is required</form-error>
+        <form-error error="minlength"
+          >First name min length must be 3</form-error
+        >
+      </form-errors>
+    </div>
+    <!-- Last -->
+    <div>
+      <input
+        class="block"
+        type="text"
+        placeholder="Last"
+        formControlName="last"
+      />
+      <form-errors [control]="name.controls.last">
+        <form-error error="required">Last name is required</form-error>
+      </form-errors>
+    </div>
+  </section>
+  <!-- Form array of phone form group -->
+  <section formArrayName="phones">
+    <h2>Phones</h2>
+    <!-- Each phone form group -->
+    <div
+      *ngFor="let phone of phones.controls; let i = index"
+      [formGroupName]="i"
+    >
+      <!-- Phone -->
+      <input type="text" formControlName="phone" />
+      <!-- Phone type -->
+      <select formControlName="type">
+        <option *ngFor="let type of typeList" [value]="type.value">
+          {{ type.displayName }}
+        </option>
+      </select>
+      <button (click)="removePhone(i)">Remove</button>
+      <form-errors class="block" [control]="phone.controls.phone">
+        <form-error error="required">Phone is required</form-error>
+      </form-errors>
+      <form-errors class="block" [control]="phone.controls.type">
+        <form-error error="required">Phone type is required</form-error>
+      </form-errors>
+    </div>
+    <!-- Add phone -->
+    <button (click)="addPhone()">Add phone</button>
+    <form-errors class="block" [control]="phones">
+      <form-error error="required">At least one phone is required</form-error>
+    </form-errors>
+  </section>
+  <section>
+    <h2>Tags</h2>
+    <select multiple formControlName="tags">
+      <option *ngFor="let tag of tagList" [value]="tag.value">
+        {{ tag.displayName }}
+      </option>
+    </select>
+    <form-errors class="block" [control]="tags">
+      <form-error error="required">At least one tag is required</form-error>
+    </form-errors>
+  </section>
+  <button type="submit" [disabled]="form.invalid">Submit</button>
+</form>
+<h2>Form structure</h2>
+<button (click)="logForm()">Log form</button>
+<pre>{{ form.value | json }}</pre>

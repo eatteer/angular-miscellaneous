@@ -1,0 +1,10 @@
+<h2>Form (with appDisabledIf on username)</h2>
+<form [formGroup]="form">
+  <input
+    [appDisabledIf]="disabledUsername"
+    type="text"
+    placeholder="Username"
+    formControlName="username"
+  />
+</form>
+<button (click)="toggleDisabledUsername()">Toggle disable username</button>

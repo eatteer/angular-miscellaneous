@@ -1,0 +1,13 @@
+<div>
+  <p>Total items: {{ totalItems }}</p>
+  <p>Items per page: {{ itemsPerPage }}</p>
+  <p>Current page: {{ paginationComponent.currentPage }}</p>
+</div>
+<app-list [items]="items"></app-list>
+<app-pagination
+  #paginationComponent
+  [totalItems]="totalItems"
+  [itemsPerPage]="itemsPerPage"
+  [currentPage]="currentPage"
+  (onPageChange)="fetchItemsForPage($event)"
+></app-pagination>
