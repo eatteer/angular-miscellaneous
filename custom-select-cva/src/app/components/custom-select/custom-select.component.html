@@ -1,0 +1,17 @@
+<div class="placeholder" (click)="toggleOptions()">
+  <i class="fa-solid fa-location-dot"></i>
+  <span>
+    <p *ngIf="!selectedOption">Where?</p>
+    <p *ngIf="selectedOption">{{ selectedOption.displayValue }}</p>
+  </span>
+  <i class="fa-solid fa-chevron-down"></i>
+</div>
+<ul class="options" [class.active]="showOptions">
+  <li
+    *ngFor="let option of options"
+    (click)="selectOption(option)"
+    class="option"
+  >
+    {{ option.displayValue }}
+  </li>
+</ul>
