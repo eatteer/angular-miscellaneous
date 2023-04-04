@@ -7,7 +7,7 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  public form = this.fb.group({ where: null });
+  public form = this.fb.group({ where: null, fwhere2: null });
 
   public constructor(private fb: FormBuilder) {}
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 interface Option {
@@ -10,7 +10,13 @@ interface Option {
   selector: 'app-custom-select',
   templateUrl: './custom-select.component.html',
   styleUrls: ['./custom-select.component.css'],
-  providers: [{provide: NG_VALUE_ACCESSOR, useExisting: CustomSelectComponent, multi: true}]
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: CustomSelectComponent,
+      multi: true,
+    },
+  ],
 })
 export class CustomSelectComponent implements ControlValueAccessor {
   public options: Option[] = [
@@ -23,6 +29,21 @@ export class CustomSelectComponent implements ControlValueAccessor {
 
   public selectedOption: Option | null = null;
 
+  /**
+   * If click inside component view childs
+   * do not propagate the event. So, the
+   * document:click event is not reached.
+   */
+  @HostListener('click', ['$event'])
+  public onClick(event: Event): void {
+    event.stopPropagation();
+  }
+
+  @HostListener('document:click', ['$event'])
+  public onClickOutside(): void {
+    this.showOptions = false;
+  }
+
   public toggleOptions(): void {
     this.showOptions = !this.showOptions;
   }
@@ -30,7 +51,7 @@ export class CustomSelectComponent implements ControlValueAccessor {
   public selectOption(option: Option): void {
     this.selectedOption = option;
     this.onChange(this.selectedOption);
-    this.toggleOptions();
+    this.showOptions = false;
   }
 
   public onChange = (option: Option) => {};

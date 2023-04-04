@@ -13,6 +13,8 @@
   padding: 1rem;
   border: 1px solid lightgray;
   border-radius: 2rem;
+  font-family: inherit;
+  font-size: 1rem;
   background-color: rgb(255, 255, 255);
   transition: all 0.2s;
   cursor: pointer;
@@ -63,3 +65,18 @@
   background-color: #04ca89;
   color: white;
 }
+
+/* For displaying grouped elements using Rendered2 */
+/* .first {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.middle {
+  border-radius: 0;
+}
+
+.last {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+} */

@@ -1,0 +1,18 @@
+.group {
+  display: flex;
+}
+
+.group ::ng-deep:first-child .placeholder {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.group ::ng-deep:last-child .placeholder {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* Select all elements that are not the first one and last one */
+.group ::ng-deep:not(:first-child):not(:last-child) .placeholder {
+  border-radius: 0;
+}
