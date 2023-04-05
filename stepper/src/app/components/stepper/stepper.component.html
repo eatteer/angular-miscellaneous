@@ -1,0 +1,12 @@
+<!-- STEPS NUMBERS -->
+<div class="steps-numbers">
+  <button
+    *ngFor="let stepNumber of stepsNumbers; let index = index"
+    (click)="selectStep(index)"
+    class="step-number"
+    [class.active]="activeStepIndex === index"
+  >
+    {{ stepNumber }}
+  </button>
+</div>
+<ng-content></ng-content>

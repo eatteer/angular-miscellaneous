@@ -1,0 +1,41 @@
+<!-- STEPPER -->
+<!-- #stepper exposes stepper logic -->
+<app-stepper
+  #stepper
+  [initialStepIndex]="0"
+  (onSelectStep)="onSelectStep($event)"
+  (onPreviousStep)="onPreviousStep()"
+  (onNextStep)="onNextStep()"
+  (onFinish)="onFinish()"
+>
+  <app-step>Lorem step 1</app-step>
+  <app-step>Lorem step 2</app-step>
+  <app-step>Lorem step 3</app-step>
+  <app-step>Lorem step 4</app-step>
+  <app-step>Lorem step 5</app-step>
+</app-stepper>
+<!-- STEPS BUTTONS -->
+<div class="buttons">
+  <button
+    (click)="stepper.previousStep()"
+    [disabled]="stepper.activeStepIndex === stepper.firstStepIndex"
+    class="button"
+  >
+    Previous
+  </button>
+  <button
+    *ngIf="stepper.activeStepIndex !== stepper.lastStepIndex"
+    (click)="stepper.nextStep()"
+    [disabled]="stepper.activeStepIndex === stepper.lastStepIndex"
+    class="button"
+  >
+    Next
+  </button>
+  <button
+    *ngIf="stepper.activeStepIndex === stepper.lastStepIndex"
+    (click)="stepper.finish()"
+    class="button"
+  >
+    Finish
+  </button>
+</div>
