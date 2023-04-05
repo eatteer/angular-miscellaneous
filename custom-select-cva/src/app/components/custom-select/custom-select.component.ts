@@ -1,5 +1,6 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { CustomSelectsService } from 'src/app/services/custom-selects.service';
 
 interface Option {
   displayValue: string;
@@ -18,16 +19,20 @@ interface Option {
     },
   ],
 })
-export class CustomSelectComponent implements ControlValueAccessor {
+export class CustomSelectComponent implements ControlValueAccessor, OnDestroy {
   public options: Option[] = [
     { displayValue: 'Pereira', value: 1 },
     { displayValue: 'Medellín', value: 2 },
     { displayValue: 'Bogotá', value: 3 },
   ];
 
-  public showOptions = false;
+  public show = false;
 
   public selectedOption: Option | null = null;
+
+  public constructor(private customSelectService: CustomSelectsService) {
+    this.customSelectService.register(this);
+  }
 
   /**
    * If click inside component view childs
@@ -35,26 +40,29 @@ export class CustomSelectComponent implements ControlValueAccessor {
    * document:click event is not reached.
    */
   @HostListener('click', ['$event'])
-  public onClick(event: Event): void {
+  public onClickInside(event: Event): void {
     event.stopPropagation();
   }
 
   @HostListener('document:click', ['$event'])
   public onClickOutside(): void {
-    this.showOptions = false;
+    this.show = false;
   }
 
-  public toggleOptions(): void {
-    this.showOptions = !this.showOptions;
+  public toggleShow(): void {
+    this.show = !this.show;
+    this.customSelectService.closeAllExcept(this);
   }
 
   public selectOption(option: Option): void {
     this.selectedOption = option;
     this.onChange(this.selectedOption);
-    this.showOptions = false;
+    this.show = false;
   }
 
   public onChange = (option: Option) => {};
+
+  public onTouched = () => {};
 
   public writeValue(option: Option): void {
     this.selectedOption = option;
@@ -64,11 +72,13 @@ export class CustomSelectComponent implements ControlValueAccessor {
     this.onChange = fn;
   }
 
-  public registerOnTouched(fn: any): void {
-    // throw new Error('Method not implemented.');
+  public registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
   }
 
-  public setDisabledState?(isDisabled: boolean): void {
-    // throw new Error('Method not implemented.');
+  public setDisabledState?(isDisabled: boolean): void {}
+
+  public ngOnDestroy(): void {
+    this.customSelectService.remove(this);
   }
 }
