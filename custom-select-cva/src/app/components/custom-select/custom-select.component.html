@@ -1,4 +1,4 @@
-<button class="placeholder" (click)="toggleOptions()">
+<button class="placeholder" (click)="toggleShow()">
   <i class="fa-solid fa-location-dot"></i>
   <span>
     <p *ngIf="!selectedOption">Where?</p>
@@ -6,7 +6,7 @@
   </span>
   <i class="fa-solid fa-chevron-down"></i>
 </button>
-<ul class="options" [class.active]="showOptions">
+<ul class="options" [class.active]="show">
   <li
     *ngFor="let option of options"
     (click)="selectOption(option)"

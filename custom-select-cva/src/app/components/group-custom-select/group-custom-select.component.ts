@@ -21,18 +21,19 @@ export class GroupCustomSelectComponent implements AfterContentInit {
 
   /* For displaying grouped elements using Rendered2 */
   public ngAfterContentInit(): void {
-    // this.customSelects.forEach((customSelect, index) => {
-    //   const element = customSelect.nativeElement;
-    //   const placeholder = element.querySelector('.placeholder');
-    //   if (index === 0) {
-    //     this.renderer2.addClass(placeholder, 'first');
-    //     return;
-    //   }
-    //   if (index === this.customSelects.length - 1) {
-    //     this.renderer2.addClass(placeholder, 'last');
-    //     return;
-    //   }
-    //   this.renderer2.addClass(placeholder, 'middle');
-    // });
+    this.customSelects.forEach((customSelect, index) => {
+      return;
+      const element = customSelect.nativeElement;
+      const placeholder = element.querySelector('.placeholder');
+      if (index === 0) {
+        this.renderer2.addClass(placeholder, 'first');
+        return;
+      }
+      if (index === this.customSelects.length - 1) {
+        this.renderer2.addClass(placeholder, 'last');
+        return;
+      }
+      this.renderer2.addClass(placeholder, 'middle');
+    });
   }
 }
