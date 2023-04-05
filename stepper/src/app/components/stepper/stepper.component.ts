@@ -18,15 +18,6 @@ export class StepperComponent implements AfterContentInit {
   @Input()
   public initialStepIndex = 0;
 
-  @ContentChildren(StepComponent)
-  public stepComponents!: QueryList<StepComponent>;
-
-  public firstStepIndex: number = 0;
-  public lastStepIndex: number = 0;
-  public activeStepIndex: number = 0;
-
-  public stepsNumbers: number[] = [];
-
   @Output()
   public onSelectStep: EventEmitter<number> = new EventEmitter();
 
@@ -39,23 +30,55 @@ export class StepperComponent implements AfterContentInit {
   @Output()
   public onFinish: EventEmitter<void> = new EventEmitter();
 
+  @ContentChildren(StepComponent)
+  public steps!: QueryList<StepComponent>;
+
+  public firstStepIndex: number = 0;
+  public lastStepIndex: number = 0;
+  public activeStepIndex: number = 0;
+
+  public activeStep!: StepComponent;
+
   public ngAfterContentInit(): void {
-    this.generateStepsNumbers();
-    this.stepComponents.get(this.initialStepIndex)!.active = true;
-    this.lastStepIndex = this.stepComponents.length - 1;
+    this.lastStepIndex = this.steps.length - 1;
+
+    // Init active step
+    const step = this.steps.get(this.initialStepIndex)!;
+    this.activeStep = step;
     this.activeStepIndex = this.initialStepIndex;
+    step.active = true;
   }
 
   /**
-   *  Activate a step given its index while deactivate the rest and emit `onSelectStep` event.
+   *  Activate a step given its index while deactivate the rest.
    *
    * @param {number} stepIndex Index of step to activate
    */
   public selectStep(stepIndex: number): void {
+    const step = this.steps.get(stepIndex)!;
     this.activeStepIndex = stepIndex;
-    this.stepComponents.forEach((step, currentIndex) => {
+    this.activeStep = step;
+
+    // Deactivate steps except the selected one.
+    this.steps.forEach((step, currentIndex) => {
       step.active = currentIndex === stepIndex ? true : false;
     });
+  }
+
+  public anyStep(stepIndex: number): void {
+    const indexOfStepThatAvoids = this.steps
+      .toArray()
+      .findIndex((stepComponent) => !stepComponent.allowNextWhen);
+
+    // If there are some steps that avoid navigation and
+    // user is trying to navigate forward, then navigate
+    // to this first found step that avoids forward navigation.
+    if (indexOfStepThatAvoids > 1 && stepIndex > indexOfStepThatAvoids) {
+      this.selectStep(indexOfStepThatAvoids);
+      return;
+    }
+
+    this.selectStep(stepIndex);
     this.onSelectStep.emit(stepIndex);
   }
 
@@ -63,8 +86,7 @@ export class StepperComponent implements AfterContentInit {
    * Decrement `activeStepIndex`, run `selectStep` and emit `onPreviousStep` event.
    */
   public previousStep(): void {
-    this.activeStepIndex--;
-    this.selectStep(this.activeStepIndex);
+    this.selectStep(--this.activeStepIndex);
     this.onPreviousStep.emit();
   }
 
@@ -72,8 +94,8 @@ export class StepperComponent implements AfterContentInit {
    * Increment `activeStepIndex`, run `selectStep` and emit `onNextStep` event.
    */
   public nextStep(): void {
-    this.activeStepIndex++;
-    this.selectStep(this.activeStepIndex);
+    if (!this.activeStep.allowNextWhen) return;
+    this.selectStep(++this.activeStepIndex);
     this.onNextStep.emit();
   }
 
@@ -84,11 +106,8 @@ export class StepperComponent implements AfterContentInit {
     this.onFinish.emit();
   }
 
-  /**
-   * Generate an array containing the steps numbers.
-   */
-  private generateStepsNumbers(): void {
-    const { length } = this.stepComponents;
-    this.stepsNumbers = Array.from({ length }, (_, i) => i + 1);
+  public toggleAllowNext(stepIndex: number): void {
+    const step = this.steps.get(stepIndex)!;
+    step.allowNextWhen = !step.allowNextWhen;
   }
 }

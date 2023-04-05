@@ -47,3 +47,7 @@ body {
 .button:hover:not(:disabled) {
   background-color: var(--primary-color-hover);
 }
+
+.button:active:not(:disabled) {
+  transform: scale(0.9);
+}

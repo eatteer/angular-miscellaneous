@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-step',
@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./step.component.css'],
 })
 export class StepComponent {
+  @Input()
+  public allowNextWhen = true;
+
   public active = false;
 }

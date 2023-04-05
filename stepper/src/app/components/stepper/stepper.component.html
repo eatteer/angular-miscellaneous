@@ -1,12 +1,43 @@
 <!-- STEPS NUMBERS -->
 <div class="steps-numbers">
   <button
-    *ngFor="let stepNumber of stepsNumbers; let index = index"
-    (click)="selectStep(index)"
+    *ngFor="let step of steps; let index = index"
+    (click)="anyStep(index)"
     class="step-number"
     [class.active]="activeStepIndex === index"
+    [class.required]="!step.allowNextWhen"
   >
-    {{ stepNumber }}
+    {{ index + 1 }}
   </button>
 </div>
+<!-- STEPS -->
 <ng-content></ng-content>
+<!-- STEPS BUTTONS -->
+<div class="buttons">
+  <button
+    (click)="previousStep()"
+    [disabled]="activeStepIndex === firstStepIndex"
+    class="button"
+  >
+    Previous
+  </button>
+  <button
+    *ngIf="activeStepIndex !== lastStepIndex"
+    (click)="nextStep()"
+    [disabled]="activeStepIndex === lastStepIndex"
+    class="button"
+  >
+    Next
+  </button>
+  <button
+    *ngIf="activeStepIndex === lastStepIndex"
+    (click)="finish()"
+    class="button"
+  >
+    Finish
+  </button>
+</div>
+<br />
+<button (click)="toggleAllowNext(3)" class="toggle-allow button">
+  Toggle allow next from 4
+</button>

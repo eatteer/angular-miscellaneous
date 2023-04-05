@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   public onSelectStep(selectedStepIndex: number): void {
-    console.log(selectedStepIndex);
+    console.log('any');
   }
 
   public onPreviousStep(): void {
