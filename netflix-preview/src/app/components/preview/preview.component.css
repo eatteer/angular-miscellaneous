@@ -1,0 +1,31 @@
+:host {
+  z-index: 10;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  width: 230px;
+  height: 230px;
+  background-color: lightgoldenrodyellow;
+  border: 1px solid goldenrod;
+  opacity: 0.8;
+  animation: show 400ms forwards;
+}
+
+@keyframes show {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes hide {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0);
+  }
+}
