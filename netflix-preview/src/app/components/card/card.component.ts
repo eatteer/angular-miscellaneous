@@ -26,12 +26,12 @@ export class CardComponent implements OnInit {
         position: this._elementRef.nativeElement.getBoundingClientRect(),
       };
       this._previewService.showPreview(previewConfig);
-    }, this._previewService.ms);
+    }, this._previewService.stayFor);
   }
 
   @HostListener('mouseleave', ['$event'])
   public onMouseLeave(): void {
     console.log('leave card');
-    clearTimeout(this._timeoutId);
+    if (this._timeoutId) clearTimeout(this._timeoutId);
   }
 }

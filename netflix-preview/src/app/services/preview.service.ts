@@ -7,7 +7,7 @@ import { IPreview, TPreviewConfig } from '../interfaces/preview';
 })
 export class PreviewService {
   private _preview$ = new Subject<IPreview>();
-  public ms = 500;
+  public stayFor = 700;
 
   public get preview(): Observable<IPreview> {
     return this._preview$.asObservable();
