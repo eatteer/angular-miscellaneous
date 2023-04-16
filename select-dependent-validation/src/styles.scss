@@ -1,0 +1,13 @@
+@import "custom-bootstrap.scss";
+
+// Styles form invalid form controls
+
+// Regular form control
+.form-control.ng-touched.ng-invalid {
+  @extend .is-invalid;
+}
+
+.error-message {
+  color: $danger;
+  font-size: $small-font-size;
+}
