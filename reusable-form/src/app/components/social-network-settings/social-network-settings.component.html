@@ -1,0 +1,50 @@
+<form [formGroup]="form">
+  <div class="row">
+    <!-- #region Social network name -->
+    <div class="col">
+      <div class="form-floating">
+        <select
+          id="social-network"
+          class="form-select"
+          formControlName="socialNetworkId"
+        >
+          <option
+            *ngFor="let socialNetwork of socialNetworks"
+            [value]="socialNetwork.id"
+          >
+            {{ socialNetwork.name }}
+          </option>
+        </select>
+        <label for="social-network" class="form-label">Social network</label>
+      </div>
+    </div>
+    <!-- #endregion Social network name -->
+    <!-- #region Social network url -->
+    <div class="col">
+      <div class="form-floating">
+        <input
+          id="url"
+          type="text"
+          class="form-control"
+          placeholder="URL"
+          formControlName="socialNetworkUrl"
+        />
+        <label for="url" class="form-label">URL</label>
+      </div>
+      <div ngxErrors="socialNetworkUrl">
+        <div class="mt-1 error-message">
+          <div ngxError="required">
+            <span>URL is required</span>
+          </div>
+          <div ngxError="invalidUrl">
+            <span>
+              Try something like this:
+              {{ socialNetworkValidUrlExample }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- #endregion Social network url -->
+  </div>
+</form>
