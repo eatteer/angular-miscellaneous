@@ -1,0 +1,20 @@
+<ngx-datatable
+  [columnMode]="ColumnMode.force"
+  [rows]="users"
+  [columns]="columns"
+  class="border border-stone-600"
+>
+  <ngx-datatable-column
+    *ngFor="let column of columns"
+    [name]="column.name"
+    [prop]="column.prop"
+    [headerTemplate]="columnHeader"
+  >
+    <ng-template #columnHeader>
+      <div class="flex gap-2 items-center border border-red-600">
+        <span>{{ column.name }}</span>
+        <i class="fa-solid fa-sort"></i>
+      </div>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>
