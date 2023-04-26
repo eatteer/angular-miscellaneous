@@ -1,0 +1,15 @@
+<!-- <app-card
+  [headerTemplate]="customHeaderTemplate"
+  [bodyTemplate]="customBodyTemplate"
+  [footerTemplate]="customFooterTemplate"
+/> -->
+<app-card />
+<ng-template #customHeaderTemplate let-property>
+  <img [src]="property.image.src" [alt]="property.image.alt" />
+</ng-template>
+<ng-template #customBodyTemplate let-property>
+  <p>{{ property.description }}</p>
+</ng-template>
+<ng-template #customFooterTemplate let-property>
+  <button (click)="property.navigate()">Show more</button>
+</ng-template>

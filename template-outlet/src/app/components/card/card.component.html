@@ -1,0 +1,38 @@
+<div class="card">
+  <!-- Header -->
+  <ng-container
+    [ngTemplateOutlet]="headerTemplate ?? defaultHeaderTemplate"
+    [ngTemplateOutletContext]="{ $implicit: property }"
+  >
+    <ng-template #defaultHeaderTemplate>
+      <header class="card__header">
+        <img [src]="property.image.src" [alt]="property.image.alt" />
+      </header>
+    </ng-template>
+  </ng-container>
+  <!-- Body -->
+  <ng-container
+    [ngTemplateOutlet]="bodyTemplate ?? defaultBodyTemplate"
+    [ngTemplateOutletContext]="{ $implicit: property }"
+  >
+    <ng-template #defaultBodyTemplate>
+      <div class="card__body">
+        <h3 class="card__title">{{ property.title }}</h3>
+        <p class="card__description">
+          {{ property.description }}
+        </p>
+      </div>
+    </ng-template>
+  </ng-container>
+  <!-- Footer -->
+  <ng-container
+    [ngTemplateOutlet]="footerTemplate ?? defaultFooterTemplate"
+    [ngTemplateOutletContext]="{ $implicit: property }"
+  >
+    <ng-template #defaultFooterTemplate>
+      <footer class="card__footer">
+        <button class="card__button" (click)="navigate()">Show more</button>
+      </footer>
+    </ng-template>
+  </ng-container>
+</div>
