@@ -1,0 +1,6 @@
+<div>
+  <button (click)="resendCode()" [disabled]="!isButtonEnabled">
+    Resend code
+  </button>
+  <p *ngIf="showRemainingTime">Remaining time: {{ remainingTime }}</p>
+</div>
