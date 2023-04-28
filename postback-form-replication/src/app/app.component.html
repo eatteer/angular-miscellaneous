@@ -1,0 +1,87 @@
+<div class="min-w-full min-h-screen flex justify-center items-center">
+  <form [formGroup]="form">
+    <section class="mb-6">
+      <h2 class="text-2xl font-bold mb-4">Param variables</h2>
+      <button
+        type="button"
+        (click)="addParamVarFormGroup()"
+        [disabled]="paramsVarFormArrayLength === postbackVarFormArrayLength"
+        class="btn btn-primary mb-4"
+      >
+        Add variable
+      </button>
+      <ul formArrayName="paramVars" class="flex flex-col gap-2">
+        <li
+          *ngFor="
+            let paramVars of paramVarFormArray.controls;
+            let index = index
+          "
+        >
+          <form [formGroupName]="index" class="flex gap-2">
+            <input
+              type="text"
+              formControlName="key"
+              placeholder="Key"
+              class="input input-bordered input-primary"
+            />
+            <input
+              type="text"
+              formControlName="alias"
+              placeholder="Alias"
+              class="input input-bordered input-primary"
+            />
+            <button
+              type="button"
+              *ngIf="index !== 0"
+              (click)="removeParamVarFromGroup(index)"
+              class="btn btn-error"
+            >
+              Remove
+            </button>
+          </form>
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2 class="text-2xl font-bold mb-4">Postback variables</h2>
+      <button
+        type="button"
+        (click)="addPostbackVarFormGroup()"
+        class="btn btn-primary mb-4"
+      >
+        Add variable
+      </button>
+      <ul formArrayName="postbackVars" class="flex flex-col gap-2">
+        <li
+          *ngFor="
+            let postbackVar of postbackVarFormArray.controls;
+            let index = index
+          "
+        >
+          <form [formGroupName]="index" class="flex gap-2">
+            <input
+              type="text"
+              formControlName="key"
+              placeholder="Key"
+              class="input input-bordered input-primary"
+            />
+            <input
+              type="text"
+              formControlName="value"
+              placeholder="Value"
+              class="input input-bordered input-primary"
+            />
+            <button
+              type="button"
+              *ngIf="index !== 0"
+              (click)="removePostbackVarFromGroup(index)"
+              class="btn btn-error"
+            >
+              Remove
+            </button>
+          </form>
+        </li>
+      </ul>
+    </section>
+  </form>
+</div>

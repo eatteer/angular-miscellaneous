@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ng-invalid.ng-touched {
+  @apply input-error;
+}
