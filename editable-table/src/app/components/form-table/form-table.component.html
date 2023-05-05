@@ -1,0 +1,78 @@
+<table class="table w-full">
+  <thead>
+    <tr>
+      <th>Actions</th>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users" [formGroup]="userOnEditionForm">
+      <!-- Actions -->
+      <td>
+        <!-- Edit -->
+        <button
+          *ngIf="!user.isEditing"
+          (click)="setUserToEdit(user)"
+          class="btn btn-primary btn-xs"
+        >
+          Edit
+        </button>
+        <ng-container *ngIf="user.isEditing">
+          <!-- Cancel edition -->
+          <div class="flex gap-2">
+            <button
+              (click)="unsetUserOnEdition(user)"
+              class="btn btn-primary btn-xs"
+            >
+              Cancel
+            </button>
+            <!-- Save changes -->
+            <button
+              (click)="saveUserChanges(user)"
+              [disabled]="userOnEditionForm.invalid"
+              class="btn btn-primary btn-xs"
+            >
+              Save
+            </button>
+          </div>
+        </ng-container>
+      </td>
+      <!-- User id -->
+      <td>{{ user.id }}</td>
+      <!-- User name -->
+      <td>
+        <span *ngIf="!user.isEditing">{{ user.name }}</span>
+        <input
+          *ngIf="user.isEditing"
+          type="text"
+          formControlName="name"
+          class="input input-bordered"
+        />
+      </td>
+      <!-- User age -->
+      <td>
+        <span *ngIf="!user.isEditing">{{ user.age }}</span>
+        <input
+          *ngIf="user.isEditing"
+          type="text"
+          formControlName="age"
+          class="input input-bordered"
+        />
+      </td>
+      <!-- User email -->
+      <td>
+        <span *ngIf="!user.isEditing">{{ user.email }} </span>
+        <input
+          *ngIf="user.isEditing"
+          type="text"
+          formControlName="email"
+          class="input input-bordered"
+        />
+      </td>
+    </tr>
+  </tbody>
+</table>
+<pre class="mt-4">{{ this.userOnEditionForm.value | json }}</pre>
