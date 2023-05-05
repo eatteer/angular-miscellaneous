@@ -1,0 +1,71 @@
+<table class="table w-full">
+  <thead>
+    <tr>
+      <th>Actions</th>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <!-- Actions -->
+      <td>
+        <button
+          *ngIf="!user.isEditing"
+          (click)="setUserToEdit(user)"
+          class="btn btn-primary btn-xs"
+        >
+          Edit
+        </button>
+        <ng-container *ngIf="user.isEditing">
+          <div class="flex gap-2">
+            <button
+              (click)="unsetUserOnEdition(user)"
+              class="btn btn-primary btn-xs"
+            >
+              Cancel
+            </button>
+            <button (click)="saveUser(user)" class="btn btn-primary btn-xs">
+              Save
+            </button>
+          </div>
+        </ng-container>
+      </td>
+      <!-- User id -->
+      <td>{{ user.id }}</td>
+      <!-- User name -->
+      <td>
+        <span *ngIf="!user.isEditing">{{ user.name }}</span>
+        <input
+          *ngIf="user.isEditing"
+          type="text"
+          [(ngModel)]="userOnEdition!.name"
+          class="input input-bordered"
+        />
+      </td>
+      <!-- User age -->
+      <td>
+        <span *ngIf="!user.isEditing">{{ user.age }}</span>
+        <input
+          *ngIf="user.isEditing"
+          type="text"
+          [(ngModel)]="userOnEdition!.age"
+          class="input input-bordered"
+        />
+      </td>
+      <!-- User email -->
+      <td>
+        <span *ngIf="!user.isEditing">{{ user.email }} </span>
+        <input
+          *ngIf="user.isEditing"
+          type="text"
+          [(ngModel)]="userOnEdition!.email"
+          class="input input-bordered"
+        />
+      </td>
+    </tr>
+  </tbody>
+</table>
+<pre class="mt-4">{{ userOnEdition | json }}</pre>
