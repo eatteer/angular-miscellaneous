@@ -1,0 +1,20 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <select formControlName="typeAccount">
+    <option value="">Type account</option>
+    <option value="savingsAccount">Savings Account</option>
+    <option value="checkingAccount">Checking Account</option>
+  </select>
+  <input
+    *ngIf="form.controls.typeAccount.value === TypeAccount.CheckingAccount"
+    formControlName="accountNumber"
+    type="text"
+    placeholder="Account number"
+  />
+  <input type="submit" value="Submit" [disabled]="form.invalid" />
+</form>
+<pre>Type account errors: {{ typeAccountControl.errors | json }}</pre>
+<pre>
+Account number errors: {{ accountNumberControl.errors | json }}
+</pre>
+<pre>Value: {{ form.value | json }}</pre>
+<pre>Valid: {{ form.valid }}</pre>
