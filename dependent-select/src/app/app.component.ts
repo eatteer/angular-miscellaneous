@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 /**
- * Returns a new object with  null and empty string properties removed
+ * Returns a new object with null and empty string properties removed
  */
 const cleanObject = <T extends Record<string, any>>(obj: T): T => {
   const newObj = {} as T;
