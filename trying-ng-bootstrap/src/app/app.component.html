@@ -1,0 +1,28 @@
+<div class="p-8">
+  <button class="button" (click)="open()">Open</button>
+</div>
+
+<ng-template #modal>
+  <div class="p-4">
+    <!-- Step 1 -->
+    <ng-container *ngIf="step === 1">
+      <h2 class="mb-2 text-2xl font-medium">Step 1</h2>
+      <p class="mb-4">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perferendis,
+        omnis nostrum tempora nulla molestias soluta eaque obcaecati labore non
+        commodi ipsum voluptates optio in accusantium quia eveniet aliquid
+        doloremque! Eos.
+      </p>
+      <button class="button" (click)="nextStep()">Next step</button>
+    </ng-container>
+    <!-- Step 2 -->
+    <ng-container *ngIf="step === 2">
+      <h2 class="mb-2 text-2xl font-medium">Step 2</h2>
+      <p class="mb-4">
+        <label class="form-label">Lorem</label>
+        <input type="text" class="form-control" />
+      </p>
+      <button class="button" (click)="previousStep()">Previous step</button>
+    </ng-container>
+  </div>
+</ng-template>
