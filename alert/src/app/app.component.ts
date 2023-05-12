@@ -18,8 +18,4 @@ export class AppComponent {
   public openIpsumAlert(): void {
     this._alertService.open(IpsumComponent);
   }
-
-  public get openAlerts(): number {
-    return this._alertService.openAlerts.length;
-  }
 }

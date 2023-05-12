@@ -1,5 +1,5 @@
-import { ApplicationRef, Component, ComponentRef } from '@angular/core';
-import { Alert } from '../../services/alert.service';
+import { Component } from '@angular/core';
+import { ActiveAlert } from '../../classes/active-alert';
 
 @Component({
   selector: 'app-alert',
@@ -7,11 +7,9 @@ import { Alert } from '../../services/alert.service';
   styleUrls: ['./alert.component.scss'],
 })
 export class AlertComponent {
-  public selfAlert!: Alert;
-
-  public constructor() {}
+  public constructor(private _activeAlert: ActiveAlert) {}
 
   public close(): void {
-    this.selfAlert.close();
+    this._activeAlert.close();
   }
 }
