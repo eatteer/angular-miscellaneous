@@ -1,0 +1,49 @@
+<main class="tw-flex tw-justify-center tw-items-center tw-min-h-screen">
+  <div class="tw-flex tw-flex-col tw-gap-4">
+    <button (click)="openFiltersForm()" class="tw-dui-btn">
+      Open filters form
+    </button>
+    <!-- #region Applied filters -->
+    <div class="tw-dui-dropdown">
+      <button
+        tabindex="0"
+        class="tw-dui-btn tw-w-full"
+        [disabled]="!(appliedFilters | hasKeys)"
+      >
+        Applied filters
+      </button>
+      <ul
+        tabindex="0"
+        class="tw-dui-dropdown-content tw-mt-1 tw-p-2 tw-shadow tw-bg-base-100 tw-rounded-box tw-border tw-min-w-full tw-w-max"
+      >
+        <li *ngFor="let key of appliedFilters | objectKeys">
+          <div class="tw-flex tw-justify-between tw-gap-4 tw-p-4">
+            <p class="tw-text-sm">
+              {{ key | titlecase }}: {{ appliedFilters[key] }}
+            </p>
+            <button
+              (click)="removeFilter(key)"
+              class="tw-dui-btn tw-dui-btn-error tw-dui-btn-xs tw-dui-btn-circle tw-dui-btn-outline"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- #endregion Applied filters -->
+  </div>
+</main>

@@ -1,0 +1,141 @@
+<form [formGroup]="form" class="tw-p-4">
+  <!-- #region Header -->
+  <header class="tw-flex tw-justify-between tw-items-center tw-gap-4 tw-mb-2">
+    <h2 class="tw-text-3xl tw-font-extrabold">Filters</h2>
+    <button
+      (click)="close()"
+      class="tw-dui-btn tw-dui-btn-xs tw-dui-btn-circle tw-dui-btn-outline"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+  </header>
+  <!-- #endregion Header -->
+  <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-4">
+    <!-- #region Campaign -->
+    <div class="tw-dui-form-control tw-w-full">
+      <label class="tw-dui-label">
+        <span class="tw-dui-label-text">Campaign</span>
+      </label>
+      <input
+        type="text"
+        placeholder="Campaign"
+        formControlName="campaign"
+        class="tw-dui-input tw-dui-input-bordered tw-w-full"
+      />
+    </div>
+    <!-- #endregion Campaign -->
+    <!-- #region Temperature -->
+    <div class="tw-dui-form-control tw-w-full">
+      <label class="tw-dui-label">
+        <span class="tw-dui-label-text">Temperature</span>
+      </label>
+      <input
+        type="text"
+        placeholder="Temperature"
+        formControlName="temperature"
+        class="tw-dui-input tw-dui-input-bordered tw-w-full"
+      />
+    </div>
+    <!-- #endregion Temperature -->
+    <!-- #region Country -->
+    <div class="tw-dui-form-control tw-w-full">
+      <label class="tw-dui-label">
+        <span class="tw-dui-label-text">Country</span>
+      </label>
+      <input
+        type="text"
+        placeholder="Country"
+        formControlName="country"
+        class="tw-dui-input tw-dui-input-bordered tw-w-full"
+      />
+    </div>
+    <!-- #endregion Temperature -->
+    <!-- #region Revenue -->
+    <div>
+      <label class="tw-dui-label">
+        <span class="tw-dui-label-text">Revenue</span>
+      </label>
+      <select
+        class="tw-dui-select tw-dui-select-bordered tw-w-full"
+        formControlName="revenue"
+      >
+        <option value="10">$10</option>
+        <option value="20">$20</option>
+        <option value="30">$30</option>
+        <option value="40">$40</option>
+      </select>
+    </div>
+    <!-- #endregion Revenue -->
+    <!-- #region Status -->
+    <div>
+      <label class="tw-dui-label">
+        <span class="tw-dui-label-text">Status</span>
+      </label>
+      <div class="tw-dui-form-control">
+        <label class="tw-dui-label tw-cursor-pointer">
+          <span class="tw-dui-label-text">Available</span>
+          <input
+            type="radio"
+            formControlName="status"
+            value="1"
+            class="tw-dui-radio"
+          />
+        </label>
+      </div>
+      <div class="tw-dui-form-control">
+        <label class="tw-dui-label tw-cursor-pointer">
+          <span class="tw-dui-label-text">Unavailable</span>
+          <input
+            type="radio"
+            formControlName="status"
+            value="2"
+            class="tw-dui-radio"
+          />
+        </label>
+      </div>
+      <div class="tw-dui-form-control">
+        <label class="tw-dui-label tw-cursor-pointer">
+          <span class="tw-dui-label-text">Soon</span>
+          <input
+            type="radio"
+            formControlName="status"
+            value="3"
+            class="tw-dui-radio"
+          />
+        </label>
+      </div>
+    </div>
+    <!-- #endregion Status -->
+  </div>
+  <!-- #region Actions -->
+  <div class="tw-flex tw-gap-4">
+    <button
+      *ngIf="shouldShowApplyFilters"
+      (click)="applyFilters()"
+      class="tw-dui-btn tw-flex-grow tw-dui-btn-primary tw-mt-4"
+    >
+      Apply
+    </button>
+    <button
+      *ngIf="shouldShowClear"
+      (click)="resetForm()"
+      class="tw-dui-btn tw-flex-grow tw-mt-4"
+    >
+      Clear
+    </button>
+  </div>
+  <!-- #endregion Actions -->
+</form>
