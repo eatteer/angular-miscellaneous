@@ -1,0 +1,35 @@
+<main
+  class="tw-flex tw-flex-col tw-justify-center tw-items-center tw-min-h-screen"
+>
+  <ngb-pagination
+    #pagination
+    [collectionSize]="100"
+    [(page)]="page"
+    (pageChange)="onPageChange($event)"
+  >
+    <ng-template ngbPaginationPages let-pages="pages">
+      <li class="ngb-custom-pages-item" *ngIf="pages.length > 0">
+        <div class="mb-3 d-flex flex-nowrap px-2">
+          <label for="pagination" class="col-form-label me-2 ms-1">
+            Page
+          </label>
+          <input
+            #i
+            id="pagination"
+            type="text"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            class="form-control"
+            [value]="page"
+            (change)="selectPage(i.value)"
+            style="width: 2.5rem"
+          />
+          <span class="col-form-label text-nowrap px-2">
+            of {{ pages.length }}
+          </span>
+        </div>
+      </li>
+    </ng-template></ngb-pagination
+  >
+  <pre class="tw-mt-4">{{ page }}</pre>
+</main>
