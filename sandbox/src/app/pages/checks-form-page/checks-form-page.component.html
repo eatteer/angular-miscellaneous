@@ -1,0 +1,27 @@
+<main class="flex flex-col justify-center items-center min-h-screen">
+  <form [formGroup]="form" class="flex">
+    <div class="form-control">
+      <label class="label cursor-pointer space-x-4">
+        <span class="label-text">Date</span>
+        <input type="checkbox" formControlName="groupByDate" class="toggle" />
+      </label>
+    </div>
+    <div class="form-control">
+      <label class="label cursor-pointer space-x-4">
+        <span class="label-text">Month</span>
+        <input type="checkbox" formControlName="groupByMonth" class="toggle" />
+      </label>
+    </div>
+    <div class="form-control">
+      <label class="label cursor-pointer space-x-4">
+        <span class="label-text">Campaign</span>
+        <input
+          type="checkbox"
+          formControlName="groupByCampaign"
+          class="toggle"
+        />
+      </label>
+    </div>
+  </form>
+  <pre class="mt-4">{{ form.value | json }}</pre>
+</main>
