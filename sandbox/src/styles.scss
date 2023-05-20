@@ -4,6 +4,41 @@
 
 @layer components {
   .sb-centered-main {
-    @apply tw-flex tw-flex-col tw-justify-center tw-items-center tw-min-h-screen;
+    @apply tw-flex 
+    tw-flex-col 
+    tw-justify-center 
+    tw-items-center 
+    tw-min-h-screen;
+  }
+
+  .sb-toggle {
+    @apply tw-toggle
+    tw-border-primary 
+    checked:tw-border-primary;
+    background-color: theme("colors.primary");
+    // theme("colors.primary") instead of tw-bg-primary
+
+    &.sb-toggle-black {
+      @apply tw-bg-slate-950
+      tw-border-slate-950
+      checked:tw-border-slate-950;
+    }
+  }
+
+  .sb-btn {
+    @apply tw-py-2
+    tw-px-6
+    tw-font-medium 
+    active:tw-scale-95
+    tw-rounded-md
+    tw-bg-primary
+    hover:tw-bg-primary-focus
+    tw-transition-all;
+
+    &.sb-btn-black {
+      @apply tw-bg-slate-950
+      tw-text-white
+      hover:tw-bg-slate-700;
+    }
   }
 }

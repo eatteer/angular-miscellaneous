@@ -1,24 +1,28 @@
-<form [formGroup]="form" class="tw-flex">
+<form [formGroup]="form" class="tw-flex tw-flex-col">
   <div class="tw-form-control">
-    <label class="tw-label tw-cursor-pointer tw-space-x-4">
+    <label class="tw-label tw-cursor-pointer tw-space-x-2">
       <span class="tw-label-text">Date</span>
-      <input type="checkbox" formControlName="groupByDate" class="tw-toggle" />
+      <input type="checkbox" formControlName="groupByDate" class="sb-toggle" />
     </label>
   </div>
   <div class="tw-form-control">
-    <label class="tw-label tw-cursor-pointer tw-space-x-4">
+    <label class="tw-label tw-cursor-pointer tw-space-x-2">
       <span class="tw-label-text">Month</span>
-      <input type="checkbox" formControlName="groupByMonth" class="tw-toggle" />
+      <input type="checkbox" formControlName="groupByMonth" class="sb-toggle" />
     </label>
   </div>
   <div class="tw-form-control">
-    <label class="tw-label tw-cursor-pointer tw-space-x-4">
+    <label class="tw-label tw-cursor-pointer tw-space-x-2">
       <span class="tw-label-text">Campaign</span>
       <input
         type="checkbox"
         formControlName="groupByCampaign"
-        class="tw-toggle"
+        class="sb-toggle"
       />
     </label>
   </div>
+  <input
+    type="text"
+    class="tw-input tw-input-primary tw-input-bordered tw-mt-4"
+  />
 </form>
