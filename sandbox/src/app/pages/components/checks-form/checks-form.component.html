@@ -1,1 +1,24 @@
-<p>checks-form works!</p>
+<form [formGroup]="form" class="tw-flex">
+  <div class="tw-form-control">
+    <label class="tw-label tw-cursor-pointer tw-space-x-4">
+      <span class="tw-label-text">Date</span>
+      <input type="checkbox" formControlName="groupByDate" class="tw-toggle" />
+    </label>
+  </div>
+  <div class="tw-form-control">
+    <label class="tw-label tw-cursor-pointer tw-space-x-4">
+      <span class="tw-label-text">Month</span>
+      <input type="checkbox" formControlName="groupByMonth" class="tw-toggle" />
+    </label>
+  </div>
+  <div class="tw-form-control">
+    <label class="tw-label tw-cursor-pointer tw-space-x-4">
+      <span class="tw-label-text">Campaign</span>
+      <input
+        type="checkbox"
+        formControlName="groupByCampaign"
+        class="tw-toggle"
+      />
+    </label>
+  </div>
+</form>
