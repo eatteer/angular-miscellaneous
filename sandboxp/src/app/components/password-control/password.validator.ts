@@ -1,38 +1,56 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
-export type PasswordErrors = {
-  uppercase?: boolean;
-  lowercase?: boolean;
-  digit?: boolean;
-  specialChar?: boolean;
-  minLength?: boolean;
+export type PasswordValidation = {
+  name: string;
+  isActive: boolean;
+  validator: (password: string) => boolean;
+  message: string;
 };
 
+export const passwordValidations: PasswordValidation[] = [
+  {
+    name: 'uppercase',
+    isActive: true,
+    validator: (password: string) => !/[A-Z]/.test(password),
+    message: 'Contain at least one uppercase letter',
+  },
+  {
+    name: 'lowercase',
+    isActive: true,
+    validator: (password: string) => !/[a-z]/.test(password),
+    message: 'Contain at least one lowercase letter',
+  },
+  {
+    name: 'digit',
+    isActive: true,
+    validator: (password: string) => !/[0-9]/.test(password),
+    message: ' Contain at least one digit',
+  },
+  {
+    name: 'specialChar',
+    isActive: true,
+    validator: (password: string) => !/[$@$!%*?&]/.test(password),
+    message: 'Contain at least one special character',
+  },
+  {
+    name: 'minLength',
+    isActive: true,
+    validator: (password?: string) => password!.length < 8,
+    message: 'Be at least 8 characters long',
+  },
+];
+
 export const validatePassword =
-  () =>
+  (validations: PasswordValidation[] = passwordValidations) =>
   (control: AbstractControl): ValidationErrors | null => {
     const password = control.value;
-    const errors: PasswordErrors = {};
+    const errors: ValidationErrors = {};
 
-    if (!/[A-Z]/.test(password)) {
-      errors.uppercase = true;
-    }
-
-    if (!/[a-z]/.test(password)) {
-      errors.lowercase = true;
-    }
-
-    if (!/[0-9]/.test(password)) {
-      errors.digit = true;
-    }
-
-    if (!/[$@$!%*?&]/.test(password)) {
-      errors.specialChar = true;
-    }
-
-    if (password.length < 8) {
-      errors.minLength = true;
-    }
+    validations.forEach((validation) => {
+      if (validation.isActive && validation.validator(password)) {
+        errors[validation.name] = true;
+      }
+    });
 
     return Object.keys(errors).length > 0 ? errors : null;
   };

@@ -5,6 +5,7 @@ import { PasswordControlComponent } from 'src/app/components/password-control/pa
 
 export type SignupGroup = {
   password: FormControl<string | null>;
+  passwordTwo: FormControl<string | null>;
 };
 
 @Component({
@@ -13,8 +14,11 @@ export type SignupGroup = {
   styleUrls: ['./signup-page.component.scss'],
 })
 export class SignupPageComponent implements OnInit {
-  @ViewChild(PasswordControlComponent, { static: true })
-  public passwordControl!: PasswordControlComponent;
+  @ViewChild('one', { static: true })
+  public passwordControlOne!: PasswordControlComponent;
+
+  @ViewChild('two', { static: true })
+  public passwordControlTwo!: PasswordControlComponent;
 
   public form!: FormGroup<SignupGroup>;
 
@@ -22,7 +26,8 @@ export class SignupPageComponent implements OnInit {
 
   public ngOnInit(): void {
     this.form = this._formBuilder.group({
-      password: this.passwordControl.createControl(),
+      password: this.passwordControlOne.createControl(),
+      passwordTwo: this.passwordControlTwo.createControl([]),
     });
   }
 }
