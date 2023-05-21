@@ -1,10 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import {
-  PasswordValidation,
-  passwordValidations,
-  validatePassword,
-} from './password.validator';
+import { PasswordErrors, validatePassword } from './password.validator';
 
 @Component({
   selector: 'app-password-control',
@@ -12,29 +8,30 @@ import {
   styleUrls: ['./password-control.component.scss'],
 })
 export class PasswordControlComponent {
-  public validations: PasswordValidation[] = [];
+  @Input()
+  public isRequired: boolean = true;
 
   public control!: FormControl<string | null>;
 
   public constructor(private _formBuilder: FormBuilder) {}
 
-  public createControl(
-    validations: PasswordValidation[] = passwordValidations
-  ): FormControl<string | null> {
-    this.validations = validations;
-
+  public createControl(): FormControl<string | null> {
     this.control = this._formBuilder.control('', [
       Validators.required,
-      validatePassword(this.validations),
+      validatePassword(),
     ]);
 
     return this.control;
   }
 
+  public hasError(errorCode: string): boolean {
+    return this.control.hasError(errorCode);
+  }
+
   public generateValidationClassesFor(errorCode: string) {
     const classes = {
-      'tw-text-green-600': !this.control.hasError(errorCode),
-      'tw-text-red-600': this.control.hasError(errorCode),
+      'tw-text-green-600': !this.hasError(errorCode),
+      'tw-text-red-600': this.hasError(errorCode),
     };
     return classes;
   }
