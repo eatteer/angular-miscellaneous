@@ -1,0 +1,15 @@
+@import "bootstrap/scss/bootstrap";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.tw-input.ng-touched.ng-invalid {
+  @apply tw-input-error;
+}
+
+@layer components {
+  .sb-centered-main {
+    @apply tw-flex tw-justify-center tw-items-center tw-min-h-screen;
+  }
+}

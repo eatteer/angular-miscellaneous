@@ -1,0 +1,13 @@
+<main class="sb-centered-main">
+  <div>
+    <form [formGroup]="form" class="tw-flex tw-flex-col">
+      <app-password-control></app-password-control>
+      <input
+        [disabled]="form.invalid"
+        type="submit"
+        value="Submit"
+        class="tw-btn tw-mt-4"
+      />
+    </form>
+  </div>
+</main>
