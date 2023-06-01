@@ -1,0 +1,35 @@
+<main>
+  <div appParent message="parent">
+    <!-- appChild directive should log 'parent' and 'sibling' messages:
+    'parent' from message of appParent input and
+    'sibling' from appSibling property -->
+    <div appChild appSibling></div>
+  </div>
+
+  <!-- [ngTemplateOutlet] is like: Here there will be a template,
+  it may come from here the app html, or from outside, so...
+  [ngTemplateOutletContext] is like: I'll provide data to that template,
+  normally, it comes from outside of the html where the [ngTemplateOutlet] is defined,
+  but it can come from the same html -->
+  <div
+    [ngTemplateOutlet]="template"
+    [ngTemplateOutletContext]="{ username: 'debviluke' }"
+  ></div>
+  <ng-template #template let-username="username">
+    Username {{ username }}
+  </ng-template>
+
+  <!-- Structural directive -->
+  <div *appHideAfter="3000 as delay; then placeholder">
+    Hide after {{ delay }} seconds
+  </div>
+  <ng-template #placeholder>
+    <div>There was something here</div>
+  </ng-template>
+
+  <!-- Provide data from structural directives -->
+  <!-- user: User -->
+  <div *appProvideData="'vikler'; level: 99; let user">
+    {{ user.username }} has level {{ user.level }}
+  </div>
+</main>
