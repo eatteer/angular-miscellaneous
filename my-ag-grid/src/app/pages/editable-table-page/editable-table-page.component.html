@@ -1,0 +1,13 @@
+<!-- <pre>{{ changedUsers | json }}</pre> -->
+<div>
+  <button>Save changes</button>
+  <button (click)="undoAllChanges()">Undo all changes</button>
+</div>
+<ag-grid-angular
+  style="width: 100%; height: 100%"
+  class="ag-theme-alpine"
+  [defaultColDef]="defaultColDef"
+  [columnDefs]="columnDefs"
+  [rowData]="users$ | async"
+  editType="fullRow"
+></ag-grid-angular>

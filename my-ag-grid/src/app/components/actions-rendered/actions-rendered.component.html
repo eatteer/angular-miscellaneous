@@ -1,0 +1,9 @@
+<div>
+  <!-- Is editing -->
+  <button *ngIf="!isEditing" (click)="edit()">Edit</button>
+  <!-- Is not editing -->
+  <button *ngIf="isEditing" (click)="save()">Save</button>
+  <button *ngIf="isEditing" (click)="cancel()">Cancel</button>
+  <!-- Is edited -->
+  <button *ngIf="isEdited" (click)="undo()">Undo</button>
+</div>
