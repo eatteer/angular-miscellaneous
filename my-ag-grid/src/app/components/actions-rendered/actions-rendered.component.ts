@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   ICellRendererParams,
   RowEditingStartedEvent,
   RowEditingStoppedEvent,
   RowValueChangedEvent,
 } from 'ag-grid-community';
+import { Subscription } from 'rxjs';
 import { EditableTablePageComponent } from 'src/app/pages/editable-table-page/editable-table-page.component';
+import { ObjectsService } from 'src/app/services/objects.service';
+import { AGridEventListener } from 'src/app/types/ag-grid.types';
 import { User } from 'src/app/types/user.type';
 
 @Component({
@@ -13,45 +16,60 @@ import { User } from 'src/app/types/user.type';
   templateUrl: './actions-rendered.component.html',
   styleUrls: ['./actions-rendered.component.scss'],
 })
-export class ActionsRenderedComponent {
+export class ActionsRenderedComponent implements OnDestroy {
   public initialData!: User;
 
-  public params!: ICellRendererParams<User>;
+  public renderedParams!: ICellRendererParams<User>;
   public rowIndex!: number;
   public isEditing: boolean = false;
   public isEdited: boolean = false;
 
-  public constructor(private _editableTablePage: EditableTablePageComponent) {
-    this._editableTablePage.undoAllChanges$.subscribe((_) => {
-      this.undo();
-    });
+  /** Subscriptions */
+  private _subscriptions: Subscription[] = [];
+
+  /** Listeners */
+  private _agGridListeners: AGridEventListener[] = [];
+
+  public constructor(
+    private _editableTablePage: EditableTablePageComponent,
+    private _objectsService: ObjectsService
+  ) {
+    const subscription = this._editableTablePage.undoAllChanges$.subscribe(
+      (_) => {
+        this.undo();
+      }
+    );
+    this._subscriptions.push(subscription);
   }
 
   public agInit(params: ICellRendererParams<User>): void {
-    this.params = params;
-    this.initialData = JSON.parse(JSON.stringify(this.params.data!));
-    this.rowIndex = this.params.rowIndex;
+    this.renderedParams = params;
+    this.initialData = this._objectsService.clone(this.renderedParams.data!);
+    this.rowIndex = this.renderedParams.rowIndex;
     this._setEventListeners();
   }
 
   public edit(): void {
-    this.params.api.setFocusedCell(this.params.rowIndex, 'name');
-    this.params.api.startEditingCell({
-      rowIndex: this.params.rowIndex,
+    this.renderedParams.api.setFocusedCell(
+      this.renderedParams.rowIndex,
+      'name'
+    );
+    this.renderedParams.api.startEditingCell({
+      rowIndex: this.renderedParams.rowIndex,
       colKey: 'name',
     });
   }
 
   public save(): void {
-    this.params.api.stopEditing();
+    this.renderedParams.api.stopEditing();
   }
 
   public cancel(): void {
-    this.params.api.stopEditing(true);
+    this.renderedParams.api.stopEditing(true);
   }
 
   public undo(): void {
-    this.params.node.setData(this.initialData);
+    this.renderedParams.node.setData(this.initialData);
     this.isEdited = false;
   }
 
@@ -66,33 +84,56 @@ export class ActionsRenderedComponent {
    */
   private _setEventListeners(): void {
     // rowEditingStarted
-    this.params.api.addEventListener(
-      'rowEditingStarted',
-      (event: RowEditingStartedEvent<User>) => {
-        if (this.rowIndex === event.rowIndex) {
-          this.isEditing = true;
-        }
+    const rowEditingStarted = (event: RowEditingStartedEvent<User>) => {
+      if (this.rowIndex === event.rowIndex) {
+        this.isEditing = true;
       }
+    };
+
+    this.renderedParams.api.addEventListener(
+      'rowEditingStarted',
+      rowEditingStarted
     );
 
     // rowEditingStopped
-    this.params.api.addEventListener(
-      'rowEditingStopped',
-      (event: RowEditingStoppedEvent<User>) => {
-        if (this.rowIndex === event.rowIndex) {
-          this.isEditing = false;
-        }
+    const rowEditingStopped = (event: RowEditingStoppedEvent<User>) => {
+      if (this.rowIndex === event.rowIndex) {
+        this.isEditing = false;
       }
+    };
+    this.renderedParams.api.addEventListener(
+      'rowEditingStopped',
+      rowEditingStopped
     );
 
     // rowValueChanged
-    this.params.api.addEventListener(
-      'rowValueChanged',
-      (event: RowValueChangedEvent<User>) => {
-        if (this.rowIndex === event.rowIndex) {
-          this.isEdited = true;
-        }
+    const rowValueChanged = (event: RowValueChangedEvent<User>) => {
+      if (this.rowIndex === event.rowIndex) {
+        this.isEdited = true;
       }
+    };
+    this.renderedParams.api.addEventListener(
+      'rowValueChanged',
+      rowValueChanged
     );
+
+    // Push listeners
+    const listeners = [
+      { eventType: 'rowEditingStarted', listener: rowEditingStarted },
+      { eventType: 'rowEditingStopped', listener: rowEditingStopped },
+      { eventType: 'rowValueChanged', listener: rowValueChanged },
+    ];
+    this._agGridListeners.push(...listeners);
+  }
+
+  public ngOnDestroy(): void {
+    this._subscriptions.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
+
+    this._agGridListeners.forEach((agridListener) => {
+      const { eventType, listener } = agridListener;
+      this.renderedParams.api.removeEventListener(eventType, listener);
+    });
   }
 }

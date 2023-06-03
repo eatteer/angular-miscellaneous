@@ -1,0 +1,46 @@
+<!-- photos: Photo[] -->
+<table mat-table [dataSource]="photos">
+  <!-- actions -->
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let photo">
+      <button (click)="edit(photo)">Edit</button>
+    </td>
+  </ng-container>
+
+  <!-- photo.albumId -->
+  <ng-container matColumnDef="albumId">
+    <th mat-header-cell *matHeaderCellDef>Album ID</th>
+    <td mat-cell *matCellDef="let photo">{{ photo.albumId }}</td>
+  </ng-container>
+
+  <!-- photo.id -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>ID</th>
+    <td mat-cell *matCellDef="let photo">{{ photo.id }}</td>
+  </ng-container>
+
+  <!-- photo.title -->
+  <ng-container matColumnDef="title">
+    <th mat-header-cell *matHeaderCellDef>Title</th>
+    <td mat-cell *matCellDef="let photo">{{ photo.title }}</td>
+  </ng-container>
+
+  <!-- photo.url -->
+  <ng-container matColumnDef="url">
+    <th mat-header-cell *matHeaderCellDef>URL</th>
+    <td mat-cell *matCellDef="let photo">{{ photo.url }}</td>
+  </ng-container>
+
+  <!-- photo.thumbnailUrl -->
+  <ng-container matColumnDef="thumbnailUrl">
+    <th mat-header-cell *matHeaderCellDef>Thumbnail URL</th>
+    <td mat-cell *matCellDef="let photo">{{ photo.thumbnailUrl }}</td>
+  </ng-container>
+
+  <!-- Headers -->
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+
+  <!-- Rows -->
+  <tr mat-row *matRowDef="let rowData; columns: columnsToDisplay"></tr>
+</table>
