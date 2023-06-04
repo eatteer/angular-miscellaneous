@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { GridApi, SortChangedEvent } from 'ag-grid-community';
-import { Sort } from '../types/params.types';
-import { AGridEventListener } from '../types/ag-grid.types';
+import { Sort } from '../../types/params.types';
+import { AGridEventListener } from '../ag-grid.types';
 
 @Injectable()
 export class AgTableService implements OnDestroy {

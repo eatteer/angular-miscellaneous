@@ -6,9 +6,9 @@ import {
   RowValueChangedEvent,
 } from 'ag-grid-community';
 import { Subscription } from 'rxjs';
-import { EditableAgTableService } from 'src/app/services/editable-ag-table.service';
+import { EditableAgTableService } from 'src/app/ag-table/services/editable-ag-table.service';
 import { ObjectsService } from 'src/app/services/objects.service';
-import { AGridEventListener } from 'src/app/types/ag-grid.types';
+import { AGridEventListener } from 'src/app/ag-table/ag-grid.types';
 import { User } from 'src/app/types/user.type';
 
 @Component({

@@ -8,8 +8,8 @@ import {
   ControlCellEditorParams,
 } from 'src/app/components/control-cell-editor/control-cell-editor.component';
 import { UsersService } from 'src/app/services/users.service';
-import { AgTableService } from 'src/app/services/ag-table.service';
-import { EditableAgTableService } from 'src/app/services/editable-ag-table.service';
+import { AgTableService } from 'src/app/ag-table/services/ag-table.service';
+import { EditableAgTableService } from 'src/app/ag-table/services/editable-ag-table.service';
 import { Sort } from 'src/app/types/params.types';
 
 /**

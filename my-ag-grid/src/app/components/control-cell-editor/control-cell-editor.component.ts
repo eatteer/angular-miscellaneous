@@ -2,11 +2,9 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ICellEditorParams } from 'ag-grid-community';
-
 export interface ControlCellEditorParams extends ICellEditorParams {
   form: FormGroup;
 }
-
 @Component({
   selector: 'app-control-cell-editor',
   templateUrl: './control-cell-editor.component.html',

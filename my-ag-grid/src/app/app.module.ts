@@ -6,25 +6,19 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { EditableTablePageComponent } from './pages/editable-table-page/editable-table-page.component';
-import { ActionsRenderedComponent } from './components/actions-rendered/actions-rendered.component';
-import { ControlCellEditorComponent } from './components/control-cell-editor/control-cell-editor.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UsersTableComponent } from './tables/users-table/users-table.component';
+import { AgTableModule } from './ag-table/ag-table.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    EditableTablePageComponent,
-    ActionsRenderedComponent,
-    ControlCellEditorComponent,
-    UsersTableComponent,
-  ],
+  declarations: [AppComponent, EditableTablePageComponent, UsersTableComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AgGridModule,
     HttpClientModule,
     ReactiveFormsModule,
+    AgTableModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
