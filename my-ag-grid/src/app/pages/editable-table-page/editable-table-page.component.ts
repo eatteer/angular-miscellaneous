@@ -1,9 +1,16 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
-import { ColDef, RowValueChangedEvent } from 'ag-grid-community';
+import {
+  ColDef,
+  GridOptions,
+  RowValueChangedEvent,
+  SortChangedEvent,
+} from 'ag-grid-community';
 import { Subject } from 'rxjs';
 import { ActionsRenderedComponent } from 'src/app/components/actions-rendered/actions-rendered.component';
+import { TablesService } from 'src/app/services/tables.service';
 import { UsersService } from 'src/app/services/users.service';
+import { Sort } from 'src/app/types/params.types';
 import { User } from 'src/app/types/user.type';
 
 @Component({
@@ -15,8 +22,18 @@ export class EditableTablePageComponent implements AfterViewInit {
   @ViewChild(AgGridAngular)
   public agGrid!: AgGridAngular;
 
+  public gridOptions: GridOptions = {
+    suppressMultiSort: true,
+    domLayout: 'autoHeight',
+  };
+
   public defaultColDef: ColDef = {
+    flex: 1,
+    autoHeight: true,
+    resizable: true,
     editable: true,
+    sortable: true,
+    comparator: () => 0,
   };
 
   public columnDefs: ColDef[] = [
@@ -30,12 +47,13 @@ export class EditableTablePageComponent implements AfterViewInit {
        */
       cellRenderer: ActionsRenderedComponent,
       editable: false,
+      sortable: false,
     },
     { field: 'name' },
     { field: 'username' },
     { field: 'email' },
     { field: 'phone' },
-    { field: 'website' },
+    { field: 'website', resizable: false },
   ];
 
   public undoAllChanges$: Subject<void> = new Subject();
@@ -44,7 +62,16 @@ export class EditableTablePageComponent implements AfterViewInit {
 
   public changedUsers: User[] = [];
 
-  public constructor(private _usersService: UsersService) {}
+  public currentSort: Sort = this._tablesService.nullSort;
+
+  public constructor(
+    private _usersService: UsersService,
+    private _tablesService: TablesService
+  ) {}
+
+  public sortChanged(event: SortChangedEvent): void {
+    this.currentSort = this._tablesService.createSort(event);
+  }
 
   public undoAllChanges(): void {
     this.undoAllChanges$.next();

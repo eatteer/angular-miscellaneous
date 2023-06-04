@@ -1,9 +1,29 @@
 <div>
+  <div class="tw-space-x-2">
+    <!-- Is not editing -->
+    <button
+      *ngIf="!isEditing"
+      (click)="edit()"
+      class="tw-btn tw-btn-xs tw-btn-neutral"
+    >
+      Edit
+    </button>
+    <!-- Is edited -->
+    <button
+      *ngIf="isEdited && !isEditing"
+      (click)="undo()"
+      class="tw-btn tw-btn-xs tw-btn-warning"
+    >
+      Undo
+    </button>
+  </div>
   <!-- Is editing -->
-  <button *ngIf="!isEditing" (click)="edit()">Edit</button>
-  <!-- Is not editing -->
-  <button *ngIf="isEditing" (click)="save()">Save</button>
-  <button *ngIf="isEditing" (click)="cancel()">Cancel</button>
-  <!-- Is edited -->
-  <button *ngIf="isEdited" (click)="undo()">Undo</button>
+  <div *ngIf="isEditing" class="tw-space-x-2">
+    <button (click)="save()" class="tw-btn tw-btn-xs tw-btn-neutral">
+      Save
+    </button>
+    <button (click)="cancel()" class="tw-btn tw-btn-xs tw-btn-error">
+      Cancel
+    </button>
+  </div>
 </div>

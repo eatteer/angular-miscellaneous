@@ -1,13 +1,20 @@
-<!-- <pre>{{ changedUsers | json }}</pre> -->
-<div>
-  <button>Save changes</button>
-  <button (click)="undoAllChanges()">Undo all changes</button>
-</div>
-<ag-grid-angular
-  style="width: 100%; height: 100%"
-  class="ag-theme-alpine"
-  [defaultColDef]="defaultColDef"
-  [columnDefs]="columnDefs"
-  [rowData]="users$ | async"
-  editType="fullRow"
-></ag-grid-angular>
+<main class="tw-p-8 tw-space-y-4">
+  <!-- <pre>{{ changedUsers | json }}</pre> -->
+  <div class="tw-space-x-4">
+    <button class="tw-btn tw-btn-success">Save changes</button>
+    <button (click)="undoAllChanges()" class="tw-btn tw-btn-warning">
+      Undo all changes
+    </button>
+  </div>
+  <pre>{{ currentSort | json }}</pre>
+  <ag-grid-angular
+    style="width: 100%"
+    class="ag-theme-alpine"
+    [gridOptions]="gridOptions"
+    [defaultColDef]="defaultColDef"
+    [columnDefs]="columnDefs"
+    [rowData]="users$ | async"
+    (sortChanged)="sortChanged($event)"
+    editType="fullRow"
+  ></ag-grid-angular>
+</main>
