@@ -1,0 +1,21 @@
+<div class="container">
+  <!-- Selected continent -->
+  <div class="selected-option" (click)="toggleShowContinentOptions()">
+    <img [src]="selectedContinent.imageUrl" />
+    <p>{{ selectedContinent.displayName }}</p>
+  </div>
+  <!-- Continent options -->
+  <ul
+    *ngIf="areThereContinents && shouldShowContinentOptions"
+    class="continent-options"
+  >
+    <li
+      *ngFor="let continent of continents"
+      (click)="selectContinent(continent.value)"
+      class="continent-option"
+    >
+      <img [src]="continent.imageUrl" />
+      <p>{{ continent.displayName }}</p>
+    </li>
+  </ul>
+</div>

@@ -1,28 +1,45 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
+import {
+  Continent,
+  ContinentValue,
+} from './components/continent-selector/continent-selector.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
-  public form = this.fb.group({ counter: [10, [Validators.min(5)]] });
+export class AppComponent {
+  public customContinents: Continent[] = [
+    {
+      displayName: 'All',
+      imageUrl: 'assets/south-america.png',
+      value: '',
+    },
+    {
+      displayName: 'Asia',
+      imageUrl: 'assets/south-america.png',
+      value: 'asia',
+    },
+    {
+      displayName: 'Africa',
+      imageUrl: 'assets/south-america.png',
+      value: 'africa',
+    },
+  ];
 
-  public constructor(private fb: FormBuilder) {}
+  public form: FormGroup<{
+    continent: FormControl<ContinentValue>;
+  }> = this.fb.group({ continent: [''] });
 
-  public ngOnInit(): void {
-    // this.counter.valueChanges.subscribe(console.log);
-    this.counter.statusChanges.subscribe((status) => {
-      if (status === 'INVALID') {
-        if (this.counter.hasError('min')) {
-          alert('Error: min validation');
-        }
-      }
-    });
+  public constructor(private fb: NonNullableFormBuilder) {}
+
+  public resetForm(): void {
+    this.form.reset();
   }
 
-  public get counter() {
-    return this.form.controls.counter;
+  public selectAsia(): void {
+    this.form.controls.continent.setValue('asia');
   }
 }

@@ -1,5 +1,9 @@
-<form [formGroup]="form">
-  <app-counter formControlName="counter"></app-counter>
-</form>
-<pre>{{ form.value | json }}</pre>
-<pre>{{ counter.errors | json }}</pre>
+<main>
+  <button (click)="resetForm()">Reset</button>
+  <button (click)="selectAsia()">Select Asia</button>
+  <form [formGroup]="form">
+    <app-continent-selector formControlName="continent" />
+  </form>
+  <br />
+  <pre>{{ form.value.continent ? form.value.continent : "all" }}</pre>
+</main>
