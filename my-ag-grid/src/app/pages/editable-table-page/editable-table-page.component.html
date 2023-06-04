@@ -1,17 +1,10 @@
 <main class="tw-p-8 tw-space-y-4">
-  <div class="tw-space-x-4">
-    <button class="tw-btn tw-btn-success">Save changes</button>
-    <button (click)="undoAllChanges()" class="tw-btn tw-btn-warning">
-      Undo all changes
-    </button>
-  </div>
-  <pre>{{ sort$ | async | json }}</pre>
-  <ag-grid-angular
-    style="width: 100%"
-    class="ag-theme-alpine"
-    [gridOptions]="gridOptions"
-    [rowData]="users$ | async"
-    editType="fullRow"
-    (gridReady)="gridReady($event)"
-  ></ag-grid-angular>
+  <section>
+    <h2 class="tw-text-4xl tw-font-extrabold tw-mb-4">Table one</h2>
+    <app-users-table></app-users-table>
+  </section>
+  <section>
+    <h2 class="tw-text-4xl tw-font-extrabold tw-mb-4">Table two</h2>
+    <app-users-table></app-users-table>
+  </section>
 </main>
