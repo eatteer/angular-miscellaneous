@@ -1,4 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import {
   ICellRendererParams,
   RowEditingStartedEvent,
@@ -7,6 +8,7 @@ import {
 } from 'ag-grid-community';
 import { Subscription } from 'rxjs';
 import { EditableTablePageComponent } from 'src/app/pages/editable-table-page/editable-table-page.component';
+import { EditableAgTableService } from 'src/app/services/editable-ag-table.service';
 import { ObjectsService } from 'src/app/services/objects.service';
 import { AGridEventListener } from 'src/app/types/ag-grid.types';
 import { User } from 'src/app/types/user.type';
@@ -17,6 +19,8 @@ import { User } from 'src/app/types/user.type';
   styleUrls: ['./actions-rendered.component.scss'],
 })
 export class ActionsRenderedComponent implements OnDestroy {
+  public form = this._editableAgTableService.getForm();
+
   public initialData!: User;
 
   public renderedParams!: ICellRendererParams<User>;
@@ -31,10 +35,10 @@ export class ActionsRenderedComponent implements OnDestroy {
   private _agGridListeners: AGridEventListener[] = [];
 
   public constructor(
-    private _editableTablePage: EditableTablePageComponent,
+    private _editableAgTableService: EditableAgTableService,
     private _objectsService: ObjectsService
   ) {
-    const subscription = this._editableTablePage.undoAllChanges$.subscribe(
+    const subscription = this._editableAgTableService.undoAllChanges$.subscribe(
       (_) => {
         this.undo();
       }

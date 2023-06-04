@@ -19,7 +19,11 @@
   </div>
   <!-- Is editing -->
   <div *ngIf="isEditing" class="tw-space-x-2">
-    <button (click)="save()" class="tw-btn tw-btn-xs tw-btn-neutral">
+    <button
+      (click)="save()"
+      [disabled]="form.invalid"
+      class="tw-btn tw-btn-xs tw-btn-neutral"
+    >
       Save
     </button>
     <button (click)="cancel()" class="tw-btn tw-btn-xs tw-btn-error">

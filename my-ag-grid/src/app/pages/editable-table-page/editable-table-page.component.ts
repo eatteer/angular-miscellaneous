@@ -1,94 +1,102 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { AgGridAngular } from 'ag-grid-angular';
-import {
-  ColDef,
-  GridOptions,
-  RowValueChangedEvent,
-  SortChangedEvent,
-} from 'ag-grid-community';
-import { Subject } from 'rxjs';
+import { Component } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { GridApi, GridOptions, GridReadyEvent } from 'ag-grid-community';
 import { ActionsRenderedComponent } from 'src/app/components/actions-rendered/actions-rendered.component';
-import { TablesService } from 'src/app/services/tables.service';
+import {
+  ControlCellEditorComponent,
+  ControlCellEditorParams,
+} from 'src/app/components/control-cell-editor/control-cell-editor.component';
 import { UsersService } from 'src/app/services/users.service';
+import { AgTableService } from 'src/app/services/ag-table.service';
+import { EditableAgTableService } from 'src/app/services/editable-ag-table.service';
 import { Sort } from 'src/app/types/params.types';
-import { User } from 'src/app/types/user.type';
 
 @Component({
   selector: 'app-editable-table-page',
   templateUrl: './editable-table-page.component.html',
   styleUrls: ['./editable-table-page.component.scss'],
+  providers: [AgTableService, EditableAgTableService],
 })
-export class EditableTablePageComponent implements AfterViewInit {
-  @ViewChild(AgGridAngular)
-  public agGrid!: AgGridAngular;
+export class EditableTablePageComponent {
+  public gridApi!: GridApi;
 
   public gridOptions: GridOptions = {
     suppressMultiSort: true,
     domLayout: 'autoHeight',
   };
 
-  public defaultColDef: ColDef = {
-    flex: 1,
-    autoHeight: true,
-    resizable: true,
-    editable: true,
-    sortable: true,
-    comparator: () => 0,
-  };
-
-  public columnDefs: ColDef[] = [
-    {
-      field: 'actions',
-      /**
-       * ActionsComponent define handlers for:
-       * - rowEditingStarted
-       * - rowEditingStopped
-       * - rowValueChanged
-       */
-      cellRenderer: ActionsRenderedComponent,
-      editable: false,
-      sortable: false,
-    },
-    { field: 'name' },
-    { field: 'username' },
-    { field: 'email' },
-    { field: 'phone' },
-    { field: 'website', resizable: false },
-  ];
-
-  public undoAllChanges$: Subject<void> = new Subject();
-
   public users$ = this._usersService.getUsers();
-
-  public changedUsers: User[] = [];
-
-  public currentSort: Sort = this._tablesService.nullSort;
+  public sort$: BehaviorSubject<Sort> = this._agTableService.sort$;
 
   public constructor(
+    private _formBuilder: NonNullableFormBuilder,
     private _usersService: UsersService,
-    private _tablesService: TablesService
+    private _agTableService: AgTableService,
+    private _editableAgTableService: EditableAgTableService
   ) {}
 
-  public sortChanged(event: SortChangedEvent): void {
-    this.currentSort = this._tablesService.createSort(event);
+  public gridReady(event: GridReadyEvent): void {
+    this.gridApi = event.api;
+    this._registerGridApiForAgTableService();
+    this._configureEditableRows();
+    this._configureDefaultColDef();
+    this._configureColumnsDef();
   }
 
   public undoAllChanges(): void {
-    this.undoAllChanges$.next();
-    this.changedUsers = [];
+    this._editableAgTableService.undoAllChanges$.next();
   }
 
-  public ngAfterViewInit(): void {
-    this.agGrid.api.addEventListener(
-      'rowValueChanged',
-      (event: RowValueChangedEvent<User>) => {
-        const index = this.changedUsers.findIndex(
-          (user) => user.id === event.data?.id
-        );
-        if (index) {
-          this.changedUsers.splice(index, 1, event.data!);
-        }
-      }
-    );
+  private _registerGridApiForAgTableService(): void {
+    this._agTableService.registerAgGridApi(this.gridApi);
+  }
+
+  private _configureEditableRows(): void {
+    const form = this._formBuilder.group({
+      name: ['', [Validators.required]],
+      username: [''],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required]],
+      website: [''],
+    });
+
+    this._editableAgTableService.setForm(form);
+  }
+
+  private _configureDefaultColDef(): void {
+    this.gridApi.setDefaultColDef({
+      flex: 1,
+      autoHeight: true,
+      resizable: true,
+      editable: true,
+      sortable: true,
+      comparator: () => 0,
+      cellEditor: ControlCellEditorComponent,
+      cellEditorParams: {
+        form: this._editableAgTableService.getForm(),
+      } as ControlCellEditorParams,
+    });
+  }
+
+  private _configureColumnsDef(): void {
+    this.gridApi.setColumnDefs([
+      {
+        colId: 'actions',
+        field: 'actions',
+        editable: false,
+        sortable: false,
+        cellRenderer: ActionsRenderedComponent,
+        cellEditor: undefined,
+      },
+      {
+        colId: 'name',
+        field: 'name',
+      },
+      { colId: 'username', field: 'username' },
+      { colId: 'email', field: 'email' },
+      { colId: 'phone', field: 'phone' },
+      { colId: 'website', field: 'website', resizable: false },
+    ]);
   }
 }
