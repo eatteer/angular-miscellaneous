@@ -1,0 +1,20 @@
+<main class="flex justify-center items-center min-h-screen">
+  <div class="flex flex-col items-center">
+    <div class="space-x-4 mb-4">
+      <button (click)="updateChartForCurrentMonth()" class="btn w-max">
+        Update chart for current month
+      </button>
+      <button (click)="updateChartForMonthBefore()" class="btn w-max">
+        Update chart for month before
+      </button>
+    </div>
+    <div class="w-[820px] border border-slate-200 rounded">
+      <apx-chart
+        [series]="chartOptions.series"
+        [chart]="chartOptions.chart"
+        [xaxis]="chartOptions.xaxis"
+        [colors]="chartOptions.colors"
+      ></apx-chart>
+    </div>
+  </div>
+</main>
