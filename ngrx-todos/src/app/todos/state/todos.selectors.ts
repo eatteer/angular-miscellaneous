@@ -8,6 +8,11 @@ export const todos = createSelector(
   (todosState) => todosState.todos
 );
 
-export const hasCompletedTodos = createSelector(todos, (todosState) =>
-  todosState.some((todo) => todo.completed)
+export const completedTodos = createSelector(todos, (todos) =>
+  todos.filter((todo) => todo.completed)
+);
+
+export const hasCompletedTodos = createSelector(
+  completedTodos,
+  (completedTodos) => completedTodos.length > 0
 );

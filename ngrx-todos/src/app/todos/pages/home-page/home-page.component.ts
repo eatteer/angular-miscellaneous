@@ -1,35 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { v4 as uuidv4 } from 'uuid';
 import { Todo } from '../../entities/todo.entity';
 import { TodosActions, TodosSelectors } from '../../state/index';
+import { AddTodoDto } from '../../services/todos.service';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss'],
 })
-export class HomePageComponent {
-  public todos$: Observable<Todo[]> = this._store.select(TodosSelectors.todos);
-  public hasCompletedTodos$: Observable<boolean> = this._store.select(
+export class HomePageComponent implements OnInit {
+  public todos$: Observable<Todo[]> = this.store.select(TodosSelectors.todos);
+  public hasCompletedTodos$: Observable<boolean> = this.store.select(
     TodosSelectors.hasCompletedTodos
   );
 
-  public constructor(private _store: Store) {}
+  public todoDescriptionControl = new FormControl('', {
+    nonNullable: true,
+    validators: [Validators.required],
+  });
 
-  public addTodo(description: string): void {
-    const todo: Todo = {
-      id: uuidv4(),
+  public constructor(private store: Store) {}
+
+  public ngOnInit(): void {
+    this.store.dispatch(TodosActions.init());
+  }
+
+  public addTodo(): void {
+    const description = this.todoDescriptionControl.value;
+    const todo: AddTodoDto = {
       description,
       completed: false,
     };
 
-    this._store.dispatch(TodosActions.addTodo({ todo }));
+    this.store.dispatch(TodosActions.add({ todo }));
   }
 
   public removeTodo(todo: Todo): void {
-    this._store.dispatch(TodosActions.removeTodo({ todo }));
+    this.store.dispatch(TodosActions.remove({ todo }));
   }
 
   public changeCompletedState(todo: Todo): void {
@@ -38,14 +48,14 @@ export class HomePageComponent {
   }
 
   public markTodoAsCompleted(todo: Todo): void {
-    this._store.dispatch(TodosActions.markTodoAsCompleted({ todo }));
+    this.store.dispatch(TodosActions.markAsCompleted({ todo }));
   }
 
   public markTodoAsPending(todo: Todo): void {
-    this._store.dispatch(TodosActions.markTodoAsPending({ todo }));
+    this.store.dispatch(TodosActions.markAsPending({ todo }));
   }
 
   public clearCompletedTodos(): void {
-    this._store.dispatch(TodosActions.clearCompletedTodos());
+    this.store.dispatch(TodosActions.clearCompleted());
   }
 }

@@ -4,14 +4,15 @@
     <div class="tw-form-control tw-w-full">
       <div class="tw-flex tw-gap-2">
         <input
-          #description
           type="text"
           placeholder="Todo description"
+          [formControl]="todoDescriptionControl"
           class="tw-input tw-input-bordered tw-input-primary tw-w-full"
         />
         <button
           class="tw-btn tw-btn-primary"
-          (click)="addTodo(description.value)"
+          [disabled]="todoDescriptionControl.invalid"
+          (click)="addTodo()"
         >
           Add
         </button>
@@ -27,7 +28,9 @@
               (change)="changeCompletedState(todo)"
               class="tw-checkbox"
             />
-            <span>{{ todo.description }}</span>
+            <span class="tw-line-clamp-1 tw-text-ellipsis">
+              {{ todo.description }}
+            </span>
           </div>
           <button
             (click)="removeTodo(todo)"
