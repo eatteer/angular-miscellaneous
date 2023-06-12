@@ -12,19 +12,19 @@ const initialState: TodosState = {
 
 export const todosReducer = createReducer(
   initialState,
-  on(TodosActions.init, (currentState, action) => ({
+  on(TodosActions.initTodos, (currentState, action) => ({
     todos: currentState.todos,
   })),
-  on(TodosActions.add, (currentState, action) => {
+  on(TodosActions.addTodo, (currentState, action) => {
     return { ...currentState, todos: [...currentState.todos, action.todo] };
   }),
-  on(TodosActions.remove, (currentState, action) => {
+  on(TodosActions.removeTodo, (currentState, action) => {
     return {
       ...currentState,
       todos: currentState.todos.filter((todo) => todo.id !== action.todo.id),
     };
   }),
-  on(TodosActions.markAsCompleted, (currentState, action) => {
+  on(TodosActions.markTodoAsCompleted, (currentState, action) => {
     return {
       ...currentState,
       todos: currentState.todos.map((todo) => {
@@ -33,7 +33,7 @@ export const todosReducer = createReducer(
       }),
     };
   }),
-  on(TodosActions.markAsPending, (currentState, action) => {
+  on(TodosActions.markTodoAsPending, (currentState, action) => {
     return {
       ...currentState,
       todos: currentState.todos.map((todo) => {
@@ -42,7 +42,7 @@ export const todosReducer = createReducer(
       }),
     };
   }),
-  on(TodosActions.clearCompleted, (currentState, action) => {
+  on(TodosActions.clearCompletedTodos, (currentState, action) => {
     return {
       ...currentState,
       todos: currentState.todos.filter((todo) => todo.completed === false),

@@ -25,11 +25,11 @@ export class HomePageComponent {
       completed: false,
     };
 
-    this._store.dispatch(TodosActions.add({ todo }));
+    this._store.dispatch(TodosActions.addTodo({ todo }));
   }
 
   public removeTodo(todo: Todo): void {
-    this._store.dispatch(TodosActions.remove({ todo }));
+    this._store.dispatch(TodosActions.removeTodo({ todo }));
   }
 
   public changeCompletedState(todo: Todo): void {
@@ -38,14 +38,14 @@ export class HomePageComponent {
   }
 
   public markTodoAsCompleted(todo: Todo): void {
-    this._store.dispatch(TodosActions.markAsCompleted({ todo }));
+    this._store.dispatch(TodosActions.markTodoAsCompleted({ todo }));
   }
 
   public markTodoAsPending(todo: Todo): void {
-    this._store.dispatch(TodosActions.markAsPending({ todo }));
+    this._store.dispatch(TodosActions.markTodoAsPending({ todo }));
   }
 
   public clearCompletedTodos(): void {
-    this._store.dispatch(TodosActions.clearCompleted());
+    this._store.dispatch(TodosActions.clearCompletedTodos());
   }
 }
