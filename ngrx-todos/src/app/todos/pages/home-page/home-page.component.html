@@ -1,0 +1,49 @@
+<main class="tw-flex tw-justify-content tw-min-h-screen">
+  <div class="tw-flex tw-flex-col tw-w-96 tw-mx-auto card">
+    <h2 class="tw-text-4xl tw-font-extrabold tw-mb-4">Todos</h2>
+    <div class="tw-form-control tw-w-full">
+      <div class="tw-flex tw-gap-2">
+        <input
+          #description
+          type="text"
+          placeholder="Todo description"
+          class="tw-input tw-input-bordered tw-input-primary tw-w-full"
+        />
+        <button
+          class="tw-btn tw-btn-primary"
+          (click)="addTodo(description.value)"
+        >
+          Add
+        </button>
+      </div>
+    </div>
+    <ul class="tw-flex-grow tw-flex tw-flex-col tw-gap-4 tw-py-4">
+      <li *ngFor="let todo of todos$ | async">
+        <div class="tw-flex tw-items-center tw-justify-between tw-gap-4">
+          <div class="tw-flex tw-items-center tw-gap-4">
+            <input
+              type="checkbox"
+              [checked]="todo.completed"
+              (change)="changeCompletedState(todo)"
+              class="tw-checkbox"
+            />
+            <span>{{ todo.description }}</span>
+          </div>
+          <button
+            (click)="removeTodo(todo)"
+            class="tw-btn tw-btn-xs tw-btn-error"
+          >
+            Remove
+          </button>
+        </div>
+      </li>
+    </ul>
+    <button
+      (click)="clearCompletedTodos()"
+      [disabled]="!(hasCompletedTodos$ | async)"
+      class="tw-btn tw-w-full"
+    >
+      Clear completed
+    </button>
+  </div>
+</main>
