@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { EditableTablePageComponent } from './pages/editable-table-page/editable-table-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UsersTableComponent } from './tables/users-table/users-table.component';
+import { UsersTableComponent } from './tables/photos-table/photos-table.component';
 import { AgTableModule } from './ag-table/ag-table.module';
 
 @NgModule({

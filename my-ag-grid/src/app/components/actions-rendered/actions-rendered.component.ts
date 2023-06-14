@@ -1,5 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import {
+  ColumnApi,
   ICellRendererParams,
   RowEditingStartedEvent,
   RowEditingStoppedEvent,
@@ -9,8 +10,10 @@ import { Subscription } from 'rxjs';
 import { EditableAgTableService } from 'src/app/ag-table/services/editable-ag-table.service';
 import { ObjectsService } from 'src/app/services/objects.service';
 import { AGridEventListener } from 'src/app/ag-table/ag-grid.types';
-import { User } from 'src/app/types/user.type';
 
+/**
+ * TODO: Focus the first visible and editable column when editing
+ */
 @Component({
   selector: 'app-actions',
   templateUrl: './actions-rendered.component.html',
@@ -19,10 +22,11 @@ import { User } from 'src/app/types/user.type';
 export class ActionsRenderedComponent implements OnDestroy {
   public form = this._editableAgTableService.getForm();
 
-  public initialData!: User;
+  public initialData!: any;
 
-  public renderedParams!: ICellRendererParams<User>;
+  public renderedParams!: ICellRendererParams<any>;
   public rowIndex!: number;
+  public firstColId!: string;
   public isEditing: boolean = false;
   public isEdited: boolean = false;
 
@@ -44,7 +48,7 @@ export class ActionsRenderedComponent implements OnDestroy {
     this._subscriptions.push(subscription);
   }
 
-  public agInit(params: ICellRendererParams<User>): void {
+  public agInit(params: ICellRendererParams<any>): void {
     this.renderedParams = params;
     this.initialData = this._objectsService.clone(this.renderedParams.data!);
     this.rowIndex = this.renderedParams.rowIndex;
@@ -54,11 +58,11 @@ export class ActionsRenderedComponent implements OnDestroy {
   public edit(): void {
     this.renderedParams.api.setFocusedCell(
       this.renderedParams.rowIndex,
-      'name'
+      'title'
     );
     this.renderedParams.api.startEditingCell({
       rowIndex: this.renderedParams.rowIndex,
-      colKey: 'name',
+      colKey: 'title',
     });
   }
 
@@ -86,7 +90,7 @@ export class ActionsRenderedComponent implements OnDestroy {
    */
   private _setEventListeners(): void {
     // rowEditingStarted
-    const rowEditingStarted = (event: RowEditingStartedEvent<User>) => {
+    const rowEditingStarted = (event: RowEditingStartedEvent<any>) => {
       if (this.rowIndex === event.rowIndex) {
         this.isEditing = true;
       }
@@ -98,7 +102,7 @@ export class ActionsRenderedComponent implements OnDestroy {
     );
 
     // rowEditingStopped
-    const rowEditingStopped = (event: RowEditingStoppedEvent<User>) => {
+    const rowEditingStopped = (event: RowEditingStoppedEvent<any>) => {
       if (this.rowIndex === event.rowIndex) {
         this.isEditing = false;
       }
@@ -109,7 +113,7 @@ export class ActionsRenderedComponent implements OnDestroy {
     );
 
     // rowValueChanged
-    const rowValueChanged = (event: RowValueChangedEvent<User>) => {
+    const rowValueChanged = (event: RowValueChangedEvent<any>) => {
       if (this.rowIndex === event.rowIndex) {
         this.isEdited = true;
       }

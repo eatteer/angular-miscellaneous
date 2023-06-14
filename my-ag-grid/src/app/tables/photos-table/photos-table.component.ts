@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Component, ViewChild } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { GridApi, GridOptions, GridReadyEvent } from 'ag-grid-community';
 import { ActionsRenderedComponent } from 'src/app/components/actions-rendered/actions-rendered.component';
@@ -7,27 +6,32 @@ import {
   ControlCellEditorComponent,
   ControlCellEditorParams,
 } from 'src/app/components/control-cell-editor/control-cell-editor.component';
-import { UsersService } from 'src/app/services/users.service';
+import { PhotosService } from 'src/app/services/photos.service';
 import { AgTableService } from 'src/app/ag-table/services/ag-table.service';
 import { EditableAgTableService } from 'src/app/ag-table/services/editable-ag-table.service';
-import { Sort } from 'src/app/types/params.types';
+import { PaginationComponent } from 'src/app/ag-table/components/paginator/paginator.component';
+import { Photo } from 'src/app/types/photo.type';
 
 /**
  * USAGE
  * 1. Provide AgTableService, EditableAgTableService
- * 2. Register Grid API for AgTableService
+ * 2. Register Grid API on AgTableService
+ * 2. Register Paginator on AgTableService
  * 3. Configure editable rows by matching column definitions and form controls
  * 4. Configure default column definition
  * 5. Configure columns definitions
  */
 
 @Component({
-  selector: 'app-users-table',
-  templateUrl: './users-table.component.html',
-  styleUrls: ['./users-table.component.scss'],
+  selector: 'app-photos-table',
+  templateUrl: './photos-table.component.html',
+  styleUrls: ['./photos-table.component.scss'],
   providers: [AgTableService, EditableAgTableService],
 })
 export class UsersTableComponent {
+  @ViewChild(PaginationComponent)
+  public paginator!: PaginationComponent;
+
   public gridApi!: GridApi;
 
   public gridOptions: GridOptions = {
@@ -35,19 +39,22 @@ export class UsersTableComponent {
     domLayout: 'autoHeight',
   };
 
-  public users$ = this._usersService.getUsers();
-  public sort$: BehaviorSubject<Sort> = this._agTableService.sort$;
+  public photos: Photo[] = [];
+
+  public sortChanged$ = this._agTableService.sortChanged$;
+  public paginationChanged$ = this._agTableService.paginationChanged$;
 
   public constructor(
     private _formBuilder: NonNullableFormBuilder,
-    private _usersService: UsersService,
+    private _photosService: PhotosService,
     private _agTableService: AgTableService,
     private _editableAgTableService: EditableAgTableService
   ) {}
 
   public gridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
-    this._registerGridApiForAgTableService();
+    this.fetchPhotos();
+    this._registerTableOnAgTableService();
     this._configureEditableRows();
     this._configureDefaultColDef();
     this._configureColumnsDef();
@@ -57,17 +64,28 @@ export class UsersTableComponent {
     this._editableAgTableService.undoAllChanges$.next();
   }
 
-  private _registerGridApiForAgTableService(): void {
-    this._agTableService.registerAgGridApi(this.gridApi);
+  public fetchPhotos(): void {
+    this._photosService.getPhotos().subscribe((response) => {
+      const { data, count } = response;
+      this.photos = data;
+      this._agTableService.setPaginationConfig({
+        page: 1,
+        totalItems: count,
+        itemsPerPage: 10,
+      });
+    });
+  }
+
+  private _registerTableOnAgTableService(): void {
+    this._agTableService.registerApi(this.gridApi);
+    this._agTableService.registerPagination(this.paginator);
   }
 
   private _configureEditableRows(): void {
     const form = this._formBuilder.group({
-      name: ['', [Validators.required]],
-      username: [''],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required]],
-      website: [''],
+      title: ['', [Validators.required]],
+      url: ['', [Validators.required]],
+      thumbnailUrl: ['', [Validators.required]],
     });
 
     this._editableAgTableService.setForm(form);
@@ -91,6 +109,7 @@ export class UsersTableComponent {
   private _configureColumnsDef(): void {
     this.gridApi.setColumnDefs([
       {
+        headerName: 'Actions',
         colId: 'actions',
         field: 'actions',
         editable: false,
@@ -99,13 +118,20 @@ export class UsersTableComponent {
         cellEditor: undefined,
       },
       {
-        colId: 'name',
-        field: 'name',
+        headerName: 'Album ID',
+        colId: 'albumId',
+        field: 'albumId',
+        editable: false,
       },
-      { colId: 'username', field: 'username' },
-      { colId: 'email', field: 'email' },
-      { colId: 'phone', field: 'phone' },
-      { colId: 'website', field: 'website', resizable: false },
+      { headerName: 'ID', colId: 'id', field: 'id', editable: false },
+      { headerName: 'Title', colId: 'title', field: 'title' },
+      { headerName: 'URL', colId: 'url', field: 'url' },
+      {
+        headerName: 'Thumbnail URL',
+        colId: 'thumbnailUrl',
+        field: 'thumbnailUrl',
+        resizable: false,
+      },
     ]);
   }
 }
