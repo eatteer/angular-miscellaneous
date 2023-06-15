@@ -11,16 +11,17 @@ import { AgTableService } from 'src/app/ag-table/services/ag-table.service';
 import { EditableAgTableService } from 'src/app/ag-table/services/editable-ag-table.service';
 import { PaginationComponent } from 'src/app/ag-table/components/paginator/paginator.component';
 import { Photo } from 'src/app/types/photo.type';
-import { combineLatest, tap } from 'rxjs';
+import { combineLatest, skip, tap } from 'rxjs';
 
 /**
  * USAGE
  * 1. Provide AgTableService, EditableAgTableService
  * 2. Register Grid API on AgTableService
- * 2. Register Paginator on AgTableService
- * 3. Configure editable rows by matching column definitions and form controls
- * 4. Configure default column definition
- * 5. Configure columns definitions
+ * 3. Register Sort on AgTableService
+ * 4. Register Paginator on AgTableService on first fetch
+ * 5. Configure editable rows by matching column definitions and form controls
+ * 6. Configure default column definition
+ * 7. Configure columns definitions
  */
 
 @Component({
@@ -41,9 +42,6 @@ export class UsersTableComponent {
   };
 
   public photos: Photo[] = [];
-
-  public sortChanged$ = this._agTableService.sortChanged$;
-  public paginationChanged$ = this._agTableService.paginationChanged$;
 
   public constructor(
     private _formBuilder: NonNullableFormBuilder,
@@ -69,7 +67,7 @@ export class UsersTableComponent {
   }
 
   public fetchPhotosCauseForm(): void {
-    const payload = this._getPayload(1, 10);
+    const payload = this._getPayload(1);
     console.log(payload);
     this._photosService.getPhotos().subscribe((response) => {
       const { data, count } = response;
@@ -100,28 +98,27 @@ export class UsersTableComponent {
   }
 
   private _fetchPhotosOnChanges(): void {
-    const combined$ = combineLatest([
-      this.sortChanged$,
-      this.paginationChanged$,
-    ]);
+    const combined$ = this._agTableService.createCombineForSortAndPagination();
+
     combined$.subscribe((_) => {
       const payload = this._getPayload();
       console.log(payload);
       this._photosService.getPhotos().subscribe((response) => {
-        const { data, count } = response;
+        const { data } = response;
         this.photos = data;
       });
     });
   }
 
-  private _getPayload(currentPage?: number, itemsPerPage?: number) {
-    const sort = this.sortChanged$.getValue();
-    const page = this._agTableService.getPagination(currentPage, itemsPerPage);
+  private _getPayload(currentPage?: number) {
+    const sort = this._agTableService.getSort();
+    const page = this._agTableService.getPagination(currentPage);
     return { sort, page };
   }
 
   private _registerTableOnAgTableService(): void {
     this._agTableService.registerApi(this.gridApi);
+    this._agTableService.registerSort({ order: 'desc', orderBy: 'title' });
   }
 
   private _configureEditableRows(): void {
@@ -167,7 +164,12 @@ export class UsersTableComponent {
         editable: false,
       },
       { headerName: 'ID', colId: 'id', field: 'id', editable: false },
-      { headerName: 'Title', colId: 'title', field: 'title' },
+      {
+        headerName: 'Title',
+        colId: 'title',
+        field: 'title',
+        initialSort: 'desc',
+      },
       { headerName: 'URL', colId: 'url', field: 'url' },
       {
         headerName: 'Thumbnail URL',
