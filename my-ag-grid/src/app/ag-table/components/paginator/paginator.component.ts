@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 const FILTER_PAG_REGEX = /[^0-9]/g;
 
