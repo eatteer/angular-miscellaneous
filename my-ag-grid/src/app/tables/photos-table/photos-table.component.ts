@@ -11,6 +11,7 @@ import { AgTableService } from 'src/app/ag-table/services/ag-table.service';
 import { EditableAgTableService } from 'src/app/ag-table/services/editable-ag-table.service';
 import { PaginationComponent } from 'src/app/ag-table/components/paginator/paginator.component';
 import { Photo } from 'src/app/types/photo.type';
+import { combineLatest, tap } from 'rxjs';
 
 /**
  * USAGE
@@ -53,22 +54,44 @@ export class UsersTableComponent {
 
   public gridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
-    this.fetchPhotos();
+
     this._registerTableOnAgTableService();
     this._configureEditableRows();
     this._configureDefaultColDef();
     this._configureColumnsDef();
+
+    this._initialFetch();
+    this._fetchPhotosOnChanges();
   }
 
   public undoAllChanges(): void {
     this._editableAgTableService.undoAllChanges$.next();
   }
 
-  public fetchPhotos(): void {
+  public fetchPhotosCauseForm(): void {
+    const payload = this._getPayload(1, 10);
+    console.log(payload);
     this._photosService.getPhotos().subscribe((response) => {
       const { data, count } = response;
       this.photos = data;
-      this._agTableService.setPaginationConfig({
+      this._agTableService.setPaginationConfig(
+        {
+          page: 1,
+          totalItems: count,
+          itemsPerPage: 10,
+        },
+        false
+      );
+    });
+  }
+
+  private _initialFetch(): void {
+    const payload = this._getPayload();
+    console.log(payload);
+    this._photosService.getPhotos().subscribe((response) => {
+      const { data, count } = response;
+      this.photos = data;
+      this._agTableService.registerPagination(this.paginator, {
         page: 1,
         totalItems: count,
         itemsPerPage: 10,
@@ -76,9 +99,29 @@ export class UsersTableComponent {
     });
   }
 
+  private _fetchPhotosOnChanges(): void {
+    const combined$ = combineLatest([
+      this.sortChanged$,
+      this.paginationChanged$,
+    ]);
+    combined$.subscribe((_) => {
+      const payload = this._getPayload();
+      console.log(payload);
+      this._photosService.getPhotos().subscribe((response) => {
+        const { data, count } = response;
+        this.photos = data;
+      });
+    });
+  }
+
+  private _getPayload(currentPage?: number, itemsPerPage?: number) {
+    const sort = this.sortChanged$.getValue();
+    const page = this._agTableService.getPagination(currentPage, itemsPerPage);
+    return { sort, page };
+  }
+
   private _registerTableOnAgTableService(): void {
     this._agTableService.registerApi(this.gridApi);
-    this._agTableService.registerPagination(this.paginator);
   }
 
   private _configureEditableRows(): void {

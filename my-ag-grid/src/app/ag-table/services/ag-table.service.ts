@@ -1,5 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  Subject,
+  Subscription,
+  skip,
+  tap,
+} from 'rxjs';
 import { GridApi, SortChangedEvent } from 'ag-grid-community';
 import { Pagination, Sort } from '../../types/params.types';
 import { AGridEventListener, PaginatorConfig } from '../ag-grid.types';
@@ -33,19 +40,35 @@ export class AgTableService implements OnDestroy {
    * Registering PaginationComponent allows to receive updates about pagination
    * through {@link paginationChanged$} observable
    */
-  public registerPagination(paginator: PaginationComponent): void {
+  public registerPagination(
+    paginator: PaginationComponent,
+    config: PaginatorConfig
+  ): void {
     this._paginator = paginator;
-    const subscriptino = paginator.paginationChanged$.subscribe((page) => {
-      this.paginationChanged$.next(page);
-    });
-
-    this._listeners.push(subscriptino);
+    this.paginationChanged$.pipe(skip(1)).subscribe();
+    const subscription = paginator.paginationChanged$
+      .pipe(skip(1))
+      .subscribe((page) => {
+        this.paginationChanged$.next(page);
+      });
+    this.setPaginationConfig(config, false);
+    this._listeners.push(subscription);
   }
 
-  public setPaginationConfig(config: PaginatorConfig): void {
-    this._paginator.selectPage(String(1));
+  public setPaginationConfig(config: PaginatorConfig, shouldEmit = true): void {
+    this._paginator.selectPage(String(config.page), shouldEmit);
     this._paginator.collectionSize = config.totalItems;
     this._paginator.pageSize = config.itemsPerPage;
+  }
+
+  public getPagination(
+    currentPage: number = this.paginationChanged$.getValue(),
+    itemsPerPage: number = 10
+  ): { limit: number; offset: number } {
+    const limit = itemsPerPage;
+    const offset = itemsPerPage * (currentPage - 1);
+
+    return { limit, offset };
   }
 
   public ngOnDestroy(): void {

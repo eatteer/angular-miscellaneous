@@ -11,22 +11,35 @@ const FILTER_PAG_REGEX = /[^0-9]/g;
 })
 export class PaginationComponent {
   @ViewChild('paginator')
-  private _paginator!: NgbPagination;
+  public paginator!: NgbPagination;
 
   public paginationChanged$: BehaviorSubject<number> = new BehaviorSubject(1);
 
   public collectionSize: number = 100;
   public pageSize: number = 10;
-  public page: number = 1;
 
-  public selectPage(value: string): void {
-    this.page = Number(value);
-    this._paginator.page = this.page;
-    this._paginator.pageChange.emit(this.page);
+  private _shouldEmit = true;
+  private _passThroughtSelect = false;
+
+  public selectPage(value: string, shouldEmit = true): void {
+    this._passThroughtSelect = true;
+    this._shouldEmit = shouldEmit;
+
+    const page = Number(value);
+    this.paginator.page = page;
+    this.paginator.pageChange.emit(page);
   }
 
   protected _onPageChange(page: number): void {
-    this.paginationChanged$.next(page);
+    if (!this._passThroughtSelect) {
+      this.paginationChanged$.next(page);
+    }
+
+    if (this._passThroughtSelect && this._shouldEmit) {
+      this.paginationChanged$.next(page);
+    }
+
+    this._passThroughtSelect = false;
   }
 
   protected _formatInput(input: HTMLInputElement) {
