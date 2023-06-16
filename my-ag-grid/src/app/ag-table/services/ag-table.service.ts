@@ -2,7 +2,6 @@ import { Injectable, OnDestroy } from '@angular/core';
 import {
   BehaviorSubject,
   Observable,
-  Subject,
   Subscription,
   combineLatest,
   skip,
@@ -10,21 +9,21 @@ import {
 import { GridApi, SortChangedEvent } from 'ag-grid-community';
 import { Pagination, Sort } from '../../types/params.types';
 import { AGridEventListener, PaginatorConfig } from '../ag-grid.types';
-import { PaginationComponent } from '../components/paginator/paginator.component';
+import { PaginatorComponent } from '../components/paginator/paginator.component';
 
 @Injectable()
 export class AgTableService implements OnDestroy {
-  private _gridApi!: GridApi;
+  private _gridApi?: GridApi;
   private _agGridListeners: AGridEventListener[] = [];
 
   private _subscriptions: Subscription[] = [];
 
-  private _paginator!: PaginationComponent;
+  private _paginator!: PaginatorComponent;
 
   public sortChanged$ = new BehaviorSubject<Sort | null>(null);
   public paginationChanged$ = new BehaviorSubject<number>(1);
 
-  public currentSort!: Sort;
+  public currentSort: Sort | null = null;
   public currentPage: number = 1;
   public itemsPerPage: number = 10;
 
@@ -43,6 +42,8 @@ export class AgTableService implements OnDestroy {
       this.sortChanged$.next(sort);
     };
 
+    if (!this._gridApi) throw new Error('Grid API was not registered');
+
     this._gridApi.addEventListener('sortChanged', onSortChangedEvent);
 
     this._agGridListeners.push({
@@ -51,39 +52,46 @@ export class AgTableService implements OnDestroy {
     });
   }
 
-  public registerPagination(
-    paginator: PaginationComponent,
+  public registerPaginator(
+    paginator: PaginatorComponent,
     config: PaginatorConfig
   ): void {
-    this.currentPage = config.page;
     this._paginator = paginator;
 
-    const subscription = paginator.paginationChanged$
-      .pipe(skip(1)) // Ignore emission of registration
-      .subscribe((page) => {
-        this.currentPage = page;
-        this.paginationChanged$.next(page);
-      });
+    const subscription = paginator.paginationChanged$.subscribe((page) => {
+      this.currentPage = page;
+      this.paginationChanged$.next(page);
+    });
+
     this._subscriptions.push(subscription);
 
-    this.setPaginationConfig(config, false);
+    this.setPaginatorConfig(config, false);
   }
 
-  public setPaginationConfig(config: PaginatorConfig, shouldEmit = true): void {
-    this._paginator.selectPage(String(config.page), shouldEmit);
-    // If backend send count = 0, use 1 insted so that the paginator can be shown
+  public setPaginatorConfig(
+    config: PaginatorConfig,
+    shouldEmitPaginationChanged = true
+  ): void {
+    this.currentPage = config.page;
+
+    this._paginator.selectPage(
+      String(config.page),
+      shouldEmitPaginationChanged
+    );
+    // If backend send count = 0, use 1 instead so that the paginator can be shown
     this._paginator.collectionSize = config.totalItems || 1;
     this._paginator.pageSize = config.itemsPerPage;
     this.itemsPerPage = config.itemsPerPage;
   }
 
   public getSort(): Sort {
+    if (!this.currentSort) throw new Error('Sort was not registered');
     return this.currentSort;
   }
 
-  public getPagination(currentPage: number = this.currentPage): Pagination {
+  public getPagination(forPage: number = this.currentPage): Pagination {
     const limit = this.itemsPerPage;
-    const offset = limit * (currentPage - 1);
+    const offset = limit * (forPage - 1);
 
     return { limit, offset };
   }
@@ -102,7 +110,7 @@ export class AgTableService implements OnDestroy {
   public ngOnDestroy(): void {
     this._agGridListeners.forEach((agridListener) => {
       const { eventType, listener } = agridListener;
-      this._gridApi.removeEventListener(eventType, listener);
+      this._gridApi?.removeEventListener(eventType, listener);
     });
 
     this._subscriptions.forEach((subscription) => {

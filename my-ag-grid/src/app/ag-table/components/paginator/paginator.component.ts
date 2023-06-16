@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 const FILTER_PAG_REGEX = /[^0-9]/g;
 
@@ -9,11 +9,11 @@ const FILTER_PAG_REGEX = /[^0-9]/g;
   templateUrl: './paginator.component.html',
   styleUrls: ['./paginator.component.scss'],
 })
-export class PaginationComponent {
+export class PaginatorComponent {
   @ViewChild('paginator')
   public paginator!: NgbPagination;
 
-  public paginationChanged$: BehaviorSubject<number> = new BehaviorSubject(1);
+  public paginationChanged$ = new Subject<number>();
 
   public collectionSize: number = 100;
   public pageSize: number = 10;
@@ -21,9 +21,9 @@ export class PaginationComponent {
   private _shouldEmit = true;
   private _passThroughtSelect = false;
 
-  public selectPage(value: string, shouldEmit = true): void {
+  public selectPage(value: string, shouldEmitPaginationChanged = true): void {
     this._passThroughtSelect = true;
-    this._shouldEmit = shouldEmit;
+    this._shouldEmit = shouldEmitPaginationChanged;
 
     const page = Number(value);
     this.paginator.page = page;

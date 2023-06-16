@@ -4,19 +4,19 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActionsRenderedComponent } from '../components/actions-rendered/actions-rendered.component';
 import { ControlCellEditorComponent } from '../components/control-cell-editor/control-cell-editor.component';
-import { PaginationComponent } from './components/paginator/paginator.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
 
 @NgModule({
   declarations: [
     ActionsRenderedComponent,
     ControlCellEditorComponent,
-    PaginationComponent,
+    PaginatorComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, NgbPaginationModule],
   exports: [
     ActionsRenderedComponent,
     ControlCellEditorComponent,
-    PaginationComponent,
+    PaginatorComponent,
   ],
 })
 export class AgTableModule {}
