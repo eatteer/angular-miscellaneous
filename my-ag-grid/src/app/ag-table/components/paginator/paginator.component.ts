@@ -21,7 +21,7 @@ export class PaginatorComponent {
   private _shouldEmit = true;
   private _passThroughtSelect = false;
 
-  public selectPage(value: string, shouldEmitPaginationChanged = true): void {
+  public selectPage(value: string, shouldEmitPaginationChanged: boolean): void {
     this._passThroughtSelect = true;
     this._shouldEmit = shouldEmitPaginationChanged;
 

@@ -22,7 +22,7 @@
           class="form-control tw-w-12"
           id="paginationInput"
           [value]="page"
-          (keyup.enter)="selectPage(i.value)"
+          (keyup.enter)="selectPage(i.value, true)"
           (input)="_formatInput($any($event).target)"
         />
         <span

@@ -71,14 +71,11 @@ export class UsersTableComponent {
     this._photosService.getPhotos().subscribe((response) => {
       const { data, count } = response;
       this.photos = data;
-      this._agTableService.setPaginatorConfig(
-        {
-          page: 1,
-          totalItems: count,
-          itemsPerPage: 10,
-        },
-        false
-      );
+      this._agTableService.setPaginatorConfig({
+        page: 1,
+        totalItems: count,
+        itemsPerPage: 10,
+      });
     });
   }
 
@@ -109,9 +106,9 @@ export class UsersTableComponent {
     });
   }
 
-  private _getRequestPayload(calcultePaginationForPage?: number) {
+  private _getRequestPayload(forPage?: number) {
     const sort = this._agTableService.getSort();
-    const page = this._agTableService.getPagination(calcultePaginationForPage);
+    const page = this._agTableService.getPagination(forPage);
     return { sort, page };
   }
 

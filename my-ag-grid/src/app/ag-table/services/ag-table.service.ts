@@ -65,12 +65,12 @@ export class AgTableService implements OnDestroy {
 
     this._subscriptions.push(subscription);
 
-    this.setPaginatorConfig(config, false);
+    this.setPaginatorConfig(config);
   }
 
   public setPaginatorConfig(
     config: PaginatorConfig,
-    shouldEmitPaginationChanged = true
+    shouldEmitPaginationChanged = false
   ): void {
     this.currentPage = config.page;
 
