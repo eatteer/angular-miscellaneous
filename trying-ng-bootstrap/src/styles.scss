@@ -15,3 +15,6 @@
 .modal-content {
   @apply tw-border-0 tw-rounded;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

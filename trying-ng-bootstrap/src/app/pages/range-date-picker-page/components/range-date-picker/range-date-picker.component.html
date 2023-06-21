@@ -1,0 +1,24 @@
+<div id="container" class="tw-w-60">
+  <input
+    id="range-input"
+    type="email"
+    class="form-control"
+    placeholder="name@example.com"
+    [value]="value"
+  />
+  <!-- Invisible inputs -->
+  <div id="range-date-picker">
+    <mat-date-range-input [rangePicker]="picker" date>
+      <input matStartDate (dateChange)="startDateChange($event)" />
+      <input matEndDate (dateChange)="endDateChange($event)" />
+    </mat-date-range-input>
+  </div>
+  <!-- Invisible inputs -->
+  <mat-datepicker-toggle
+    id="icon"
+    matIconSuffix
+    [for]="picker"
+  ></mat-datepicker-toggle>
+</div>
+
+<mat-date-range-picker #picker></mat-date-range-picker>

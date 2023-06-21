@@ -1,0 +1,19 @@
+#container {
+  position: relative;
+}
+
+#range-input {
+  padding-right: 3rem;
+}
+
+#range-date-picker {
+  position: absolute;
+  visibility: hidden;
+}
+
+#icon {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
