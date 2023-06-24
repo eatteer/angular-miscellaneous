@@ -1,0 +1,16 @@
+<main class="flex justify-center items-center min-h-screen bg-slate-300">
+  <form [formGroup]="form">
+    <app-select
+      [options]="periods"
+      [shouldShowArrow]="true"
+      formControlName="period"
+      class="flex w-48"
+    />
+    <ng-template #selectedPeriod let-selectedPeriod>
+      <div class="bg-blue-300">{{ selectedPeriod.name }}</div>
+    </ng-template>
+    <ng-template #period let-period>
+      <span class="bg-pink-300">{{ period.name }}</span>
+    </ng-template>
+  </form>
+</main>
