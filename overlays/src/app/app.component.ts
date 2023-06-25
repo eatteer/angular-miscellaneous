@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { ToastService } from './components/toast/toast.service';
 import { ToastConfig, ToastVariant } from './components/toast/toast.types';
+import { LoremComponent } from './components/lorem/lorem.component';
 
 @Component({
   selector: 'app-root',
@@ -27,16 +28,22 @@ export class AppComponent {
     this._toastService.open(toastConfig);
   }
 
-  private _generateRandomText(length: number): string {
-    const characters =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let randomText = '';
+  public openWhiteToast(): void {
+    this._toastService.open({
+      title: 'Boring toast',
+      message: 'Just live your life',
+    });
+  }
 
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      randomText += characters.charAt(randomIndex);
-    }
+  public openSucessToast(): void {
+    this._toastService.open({
+      title: 'Successfully registerd',
+      message: 'You were successfully registered',
+      variant: 'success',
+    });
+  }
 
-    return randomText;
+  public openLoremToast(): void {
+    this._toastService.openWith(LoremComponent);
   }
 }

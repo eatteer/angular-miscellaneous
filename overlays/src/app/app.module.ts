@@ -10,9 +10,10 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { SelectComponent } from './components/select/select.component';
 import { ToastComponent } from './components/toast/toast.component';
 import { ToastsContainerComponent } from './components/toasts-container/toasts-container.component';
+import { LoremComponent } from './components/lorem/lorem.component';
 
 @NgModule({
-  declarations: [AppComponent, SelectComponent, ToastComponent, ToastsContainerComponent],
+  declarations: [AppComponent, SelectComponent, ToastComponent, ToastsContainerComponent, LoremComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

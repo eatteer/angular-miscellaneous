@@ -14,54 +14,14 @@
         <span class="bg-pink-300">{{ period.name }}</span>
       </ng-template>
     </form>
-    <button
-      (click)="
-        openToast({
-          title: 'Boring toast',
-          message: 'Just live your life',
-        })
-      "
-      class="btn btn-primary"
-    >
+    <button (click)="openWhiteToast()" class="btn btn-primary">
       Open toast
     </button>
-    <button
-      (click)="
-        openToast({
-          title: 'Successfully registerd',
-          message: 'You were successfully registered',
-          variant: 'success'
-        })
-      "
-      class="btn btn-primary"
-    >
+    <button (click)="openSucessToast()" class="btn btn-primary">
       Open toast success
     </button>
-
-    <button
-      (click)="
-        openToast({
-          title: 'Lorem',
-          message: 'Lorem ipsum dolor sit',
-          variant: 'warning'
-        })
-      "
-      class="btn btn-primary"
-    >
-      Open toast warning
-    </button>
-
-    <button
-      (click)="
-        openToast({
-          title: 'You were banned',
-          message: 'You were successfully banned :3',
-          variant: 'danger'
-        })
-      "
-      class="btn btn-primary"
-    >
-      Open toast danger
+    <button (click)="openLoremToast()" class="btn btn-primary">
+      Open toast lorem
     </button>
   </div>
 </main>
