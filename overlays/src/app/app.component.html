@@ -1,27 +1,47 @@
 <main class="flex justify-center items-center min-h-screen bg-slate-300">
   <div class="flex flex-col gap-4">
     <form [formGroup]="form">
+      <!-- SELECT -->
       <app-select
+        appTooltip
         [options]="periods"
         [shouldShowArrow]="true"
+        [itemTemplate]="period"
         formControlName="period"
         class="flex w-48"
       />
       <ng-template #selectedPeriod let-selectedPeriod>
-        <div class="bg-blue-300">{{ selectedPeriod.name }}</div>
+        <div class="bg-blue-300">{{ selectedPeriod.displayValue }}</div>
       </ng-template>
       <ng-template #period let-period>
-        <span class="bg-pink-300">{{ period.name }}</span>
+        <span class="bg-pink-300">{{ period.displayValue }}</span>
       </ng-template>
+      <!-- SELECT -->
     </form>
-    <button (click)="openWhiteToast()" class="btn btn-primary">
+    <!-- BUTTON WHITE TOAST -->
+    <ng-template #lorem>
+      <div class="px-2 py-1 bg-red-300 rounded-md">
+        <p>Lorem ipsum</p>
+      </div>
+    </ng-template>
+    <button
+      appTooltip
+      [template]="lorem"
+      (click)="openWhiteToast()"
+      class="btn btn-primary"
+    >
       Open toast
     </button>
+    <!-- BUTTON WHITE TOAST -->
+    <!-- BUTTON SUCCESS TOAST-->
     <button (click)="openSucessToast()" class="btn btn-primary">
       Open toast success
     </button>
+    <!-- BUTTON SUCCESS TOAST -->
+    <!-- BUTTON LOREM TOAST -->
     <button (click)="openLoremToast()" class="btn btn-primary">
       Open toast lorem
     </button>
+    <!-- BUTTON LOREM TOAST -->
   </div>
 </main>

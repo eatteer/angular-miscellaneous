@@ -11,9 +11,11 @@ import { SelectComponent } from './components/select/select.component';
 import { ToastComponent } from './components/toast/toast.component';
 import { ToastsContainerComponent } from './components/toasts-container/toasts-container.component';
 import { LoremComponent } from './components/lorem/lorem.component';
+import { TooltipComponent } from './components/tooltip/tooltip.component';
+import { TooltipDirective } from './components/tooltip/tooltip.directive';
 
 @NgModule({
-  declarations: [AppComponent, SelectComponent, ToastComponent, ToastsContainerComponent, LoremComponent],
+  declarations: [AppComponent, SelectComponent, ToastComponent, ToastsContainerComponent, LoremComponent, TooltipComponent, TooltipDirective],
   imports: [
     BrowserModule,
     AppRoutingModule,
