@@ -1,16 +1,67 @@
 <main class="flex justify-center items-center min-h-screen bg-slate-300">
-  <form [formGroup]="form">
-    <app-select
-      [options]="periods"
-      [shouldShowArrow]="true"
-      formControlName="period"
-      class="flex w-48"
-    />
-    <ng-template #selectedPeriod let-selectedPeriod>
-      <div class="bg-blue-300">{{ selectedPeriod.name }}</div>
-    </ng-template>
-    <ng-template #period let-period>
-      <span class="bg-pink-300">{{ period.name }}</span>
-    </ng-template>
-  </form>
+  <div class="flex flex-col gap-4">
+    <form [formGroup]="form">
+      <app-select
+        [options]="periods"
+        [shouldShowArrow]="true"
+        formControlName="period"
+        class="flex w-48"
+      />
+      <ng-template #selectedPeriod let-selectedPeriod>
+        <div class="bg-blue-300">{{ selectedPeriod.name }}</div>
+      </ng-template>
+      <ng-template #period let-period>
+        <span class="bg-pink-300">{{ period.name }}</span>
+      </ng-template>
+    </form>
+    <button
+      (click)="
+        openToast({
+          title: 'Boring toast',
+          message: 'Just live your life',
+        })
+      "
+      class="btn btn-primary"
+    >
+      Open toast
+    </button>
+    <button
+      (click)="
+        openToast({
+          title: 'Successfully registerd',
+          message: 'You were successfully registered',
+          variant: 'success'
+        })
+      "
+      class="btn btn-primary"
+    >
+      Open toast success
+    </button>
+
+    <button
+      (click)="
+        openToast({
+          title: 'Lorem',
+          message: 'Lorem ipsum dolor sit',
+          variant: 'warning'
+        })
+      "
+      class="btn btn-primary"
+    >
+      Open toast warning
+    </button>
+
+    <button
+      (click)="
+        openToast({
+          title: 'You were banned',
+          message: 'You were successfully banned :3',
+          variant: 'danger'
+        })
+      "
+      class="btn btn-primary"
+    >
+      Open toast danger
+    </button>
+  </div>
 </main>

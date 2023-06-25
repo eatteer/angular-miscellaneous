@@ -2,7 +2,7 @@
 <div
   #toggle="cdkOverlayOrigin"
   cdkOverlayOrigin
-  (click)="toggleOptions()"
+  (click)="toggleSelect()"
   class="w-full"
 >
   <ng-container
@@ -13,7 +13,7 @@
   <ng-template #selected>
     <button class="btn flex justify-between items-center w-full">
       <span>
-        {{ selectedOption[itemName] }}
+        {{ selectedOption[labelKey] }}
       </span>
       <span *ngIf="shouldShowArrow" class="w-4 h-4">
         <svg
@@ -40,6 +40,9 @@
 <!-- Options -->
 <ng-template
   cdkConnectedOverlay
+  [cdkConnectedOverlayHasBackdrop]="true"
+  cdkConnectedOverlayBackdropClass="select-backdrop"
+  (backdropClick)="closeSelect()"
   [cdkConnectedOverlayOrigin]="toggle"
   [cdkConnectedOverlayOpen]="isOpen"
 >
@@ -50,13 +53,11 @@
         [ngTemplateOutlet]="itemTemplate"
         [ngTemplateOutletContext]="{ $implicit: option }"
       />
-      <div>
-        <ng-template #label>
-          <div class="option">
-            {{ option[itemName] }}
-          </div>
-        </ng-template>
-      </div>
+      <ng-template #label>
+        <div class="option">
+          {{ option[labelKey] }}
+        </div>
+      </ng-template>
     </div>
   </div>
 </ng-template>

@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.toasts-container {
+  pointer-events: none;
+}
+
+.select-backdrop {
+  background-color: transparent;
+}

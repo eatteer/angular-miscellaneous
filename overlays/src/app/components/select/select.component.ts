@@ -24,10 +24,10 @@ export class SelectComponent implements ControlValueAccessor {
   public itemTemplate?: TemplateRef<any>;
 
   @Input()
-  public itemName: string = 'name';
+  public labelKey: string = 'displayValue';
 
   @Input()
-  public itemValue: string = 'value';
+  public valueKey: string = 'value';
 
   @Input()
   public shouldShowArrow: boolean = true;
@@ -40,10 +40,6 @@ export class SelectComponent implements ControlValueAccessor {
   public onTouched: () => void = () => {};
 
   public writeValue(value: any): void {
-    if (!this.itemValue) {
-      throw new Error('No itemValue provided');
-    }
-
     if (!this.options || this.options.length === 0) {
       throw new Error('No options provided');
     }
@@ -61,16 +57,24 @@ export class SelectComponent implements ControlValueAccessor {
 
   public selectValue(value: any): void {
     this.selectedOption = this.options.find(
-      (option) => option[this.itemValue] === value
+      (option) => option[this.valueKey] === value
     );
 
     this.onChange(value);
     this.onTouched();
 
+    this.closeSelect();
+  }
+
+  public toggleSelect(): void {
+    this.isOpen = !this.isOpen;
+  }
+
+  public closeSelect(): void {
     this.isOpen = false;
   }
 
-  public toggleOptions(): void {
-    this.isOpen = !this.isOpen;
+  public openSelect(): void {
+    this.isOpen = true;
   }
 }
