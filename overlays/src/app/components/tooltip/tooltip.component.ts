@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-tooltip',
   templateUrl: './tooltip.component.html',
   styleUrls: ['./tooltip.component.css'],
 })
-export class TooltipComponent {}
+export class TooltipComponent {
+  @Input()
+  public message!: string;
+}

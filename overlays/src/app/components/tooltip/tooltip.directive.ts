@@ -23,6 +23,9 @@ export class TooltipDirective {
   @Input()
   public template?: TemplateRef<any>;
 
+  @Input()
+  public message!: string;
+
   public constructor(
     private _overlay: Overlay,
     private _elementRef: ElementRef<HTMLElement>,
@@ -39,15 +42,15 @@ export class TooltipDirective {
     this._removeTooltip();
   }
 
-  @HostListener('mouseover')
-  private _showOnMouseOver(): void {
+  @HostListener('mouseenter')
+  private _showOnMouseEnter(): void {
     if (this.trigger === 'auto') {
       this._createTooltip();
     }
   }
 
-  @HostListener('mouseout')
-  private _hideOnMouseOut(): void {
+  @HostListener('mouseleave')
+  private _hideOnMouseLeave(): void {
     if (this.trigger === 'auto') {
       this._removeTooltip();
     }
@@ -69,11 +72,19 @@ export class TooltipDirective {
         ]),
     });
 
-    let componentPortal = this.template
-      ? new TemplatePortal(this.template, this._containerRef)
-      : new ComponentPortal(TooltipComponent);
-
-    this._overlayRef.attach(componentPortal);
+    if (this.template) {
+      const templatePortal = new TemplatePortal(
+        this.template,
+        this._containerRef
+      );
+      this._overlayRef.attach(templatePortal);
+    } else {
+      const tooltipComponentPortal = new ComponentPortal(TooltipComponent);
+      const tooltipComponentRef = this._overlayRef.attach(
+        tooltipComponentPortal
+      );
+      tooltipComponentRef.instance.message = this.message;
+    }
   }
 
   private _removeTooltip(): void {

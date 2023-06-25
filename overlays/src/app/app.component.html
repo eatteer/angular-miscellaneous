@@ -4,9 +4,9 @@
       <!-- SELECT -->
       <app-select
         appTooltip
+        message="Select a period"
         [options]="periods"
         [shouldShowArrow]="true"
-        [itemTemplate]="period"
         formControlName="period"
       />
       <ng-template #selectedPeriod let-selectedPeriod>
@@ -25,9 +25,9 @@
     </ng-template>
     <button
       appTooltip
+      message="Open toast"
       trigger="manual"
       #whiteToastTooltip="appTooltip"
-      [template]="lorem"
       (click)="openWhiteToast()"
       class="btn btn-primary"
     >
