@@ -1,4 +1,4 @@
-<main class="flex justify-center items-center min-h-screen bg-slate-300">
+<main class="flex justify-center items-center min-h-screen p-4 bg-slate-300">
   <div class="flex flex-col gap-4">
     <form [formGroup]="form">
       <!-- SELECT -->
@@ -34,12 +34,12 @@
     >
       Open toast
     </button>
-    <div class="flex gap-4">
+    <div class="flex flex-wrap gap-4">
       <button (click)="whiteToastTooltip.show()" class="btn btn-xs">
-        Show tooltip button above
+        Show tooltip
       </button>
       <button (click)="whiteToastTooltip.hide()" class="btn btn-xs">
-        Hide tooltip button above
+        Hide tooltip
       </button>
     </div>
     <!-- BUTTON WHITE TOAST -->
