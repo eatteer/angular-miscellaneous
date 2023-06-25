@@ -12,9 +12,13 @@ import { TooltipComponent } from './tooltip.component';
 
 @Directive({
   selector: '[appTooltip]',
+  exportAs: 'appTooltip',
 })
 export class TooltipDirective {
-  private _overlayRef!: OverlayRef;
+  private _overlayRef: OverlayRef | null = null;
+
+  @Input()
+  public trigger: 'auto' | 'manual' = 'auto';
 
   @Input()
   public template?: TemplateRef<any>;
@@ -25,8 +29,31 @@ export class TooltipDirective {
     private _containerRef: ViewContainerRef
   ) {}
 
+  public show(): void {
+    // Do not create a tooltip if there is already one
+    if (this._overlayRef) return;
+    this._createTooltip();
+  }
+
+  public hide(): void {
+    this._removeTooltip();
+  }
+
   @HostListener('mouseover')
-  public createTooltip(): void {
+  private _showOnMouseOver(): void {
+    if (this.trigger === 'auto') {
+      this._createTooltip();
+    }
+  }
+
+  @HostListener('mouseout')
+  private _hideOnMouseOut(): void {
+    if (this.trigger === 'auto') {
+      this._removeTooltip();
+    }
+  }
+
+  private _createTooltip(): void {
     this._overlayRef = this._overlay.create({
       positionStrategy: this._overlay
         .position()
@@ -49,8 +76,8 @@ export class TooltipDirective {
     this._overlayRef.attach(componentPortal);
   }
 
-  @HostListener('mouseout')
-  public removeTooltip(): void {
-    this._overlayRef.detach();
+  private _removeTooltip(): void {
+    this._overlayRef?.detach();
+    this._overlayRef = null;
   }
 }

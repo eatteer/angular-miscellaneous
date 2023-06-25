@@ -26,12 +26,22 @@
     </ng-template>
     <button
       appTooltip
+      trigger="manual"
+      #whiteToastTooltip="appTooltip"
       [template]="lorem"
       (click)="openWhiteToast()"
       class="btn btn-primary"
     >
       Open toast
     </button>
+    <div class="flex gap-4">
+      <button (click)="whiteToastTooltip.show()" class="btn btn-xs">
+        Show tooltip button above
+      </button>
+      <button (click)="whiteToastTooltip.hide()" class="btn btn-xs">
+        Hide tooltip button above
+      </button>
+    </div>
     <!-- BUTTON WHITE TOAST -->
     <!-- BUTTON SUCCESS TOAST-->
     <button (click)="openSucessToast()" class="btn btn-primary">
