@@ -12,6 +12,7 @@ import { EditableAgTableService } from 'src/app/ag-table/services/editable-ag-ta
 import { PaginatorComponent } from 'src/app/ag-table/components/paginator/paginator.component';
 import { Photo } from 'src/app/types/photo.type';
 import { GetPaginationParams } from 'src/app/ag-table/ag-grid.types';
+import { sortableConfig } from 'src/app/ag-table/ag-grid.consts';
 
 /**
  * USAGE
@@ -134,9 +135,7 @@ export class UsersTableComponent {
       autoHeight: true,
       resizable: true,
       editable: true,
-      sortable: true,
-      comparator: () => 0,
-      sortingOrder: ['asc', 'desc'],
+      ...sortableConfig,
       cellEditor: ControlCellEditorComponent,
       cellEditorParams: {
         form: this.editableAgTableService.getForm(),
