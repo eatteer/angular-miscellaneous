@@ -4,13 +4,13 @@ import { Subject } from 'rxjs';
 
 @Injectable()
 export class EditableAgTableService {
-  private _form!: FormGroup;
+  private form!: FormGroup;
   public undoAllChanges$: Subject<void> = new Subject();
 
   public constructor() {}
 
   public getForm() {
-    return this._form;
+    return this.form;
   }
 
   /**
@@ -23,12 +23,12 @@ export class EditableAgTableService {
    *  { colId: 'level' }
    * ]
    *
-   * public form = this._formBuilder.group({
+   * public form = this.formBuilder.group({
    *  username: [''],
    *  level: ['']
    * })
    */
   public setForm(form: FormGroup) {
-    this._form = form;
+    this.form = form;
   }
 }
