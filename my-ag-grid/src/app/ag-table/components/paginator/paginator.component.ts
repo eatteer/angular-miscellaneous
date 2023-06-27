@@ -18,31 +18,31 @@ export class PaginatorComponent {
   public collectionSize: number = 100;
   public pageSize: number = 10;
 
-  private _shouldEmit = true;
-  private _passThroughtSelect = false;
+  private shouldEmit = true;
+  private passThroughtSelect = false;
 
   public selectPage(value: string, shouldEmitPaginationChanged: boolean): void {
-    this._passThroughtSelect = true;
-    this._shouldEmit = shouldEmitPaginationChanged;
+    this.passThroughtSelect = true;
+    this.shouldEmit = shouldEmitPaginationChanged;
 
     const page = Number(value);
     this.paginator.page = page;
     this.paginator.pageChange.emit(page);
   }
 
-  protected _onPageChange(page: number): void {
-    if (!this._passThroughtSelect) {
+  protected onPageChange(page: number): void {
+    if (!this.passThroughtSelect) {
       this.paginationChanged$.next(page);
     }
 
-    if (this._passThroughtSelect && this._shouldEmit) {
+    if (this.passThroughtSelect && this.shouldEmit) {
       this.paginationChanged$.next(page);
     }
 
-    this._passThroughtSelect = false;
+    this.passThroughtSelect = false;
   }
 
-  protected _formatInput(input: HTMLInputElement) {
+  protected formatInput(input: HTMLInputElement) {
     input.value = input.value.replace(FILTER_PAG_REGEX, '');
   }
 }

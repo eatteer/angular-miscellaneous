@@ -2,28 +2,25 @@
   #paginator
   [collectionSize]="collectionSize"
   [pageSize]="pageSize"
-  (pageChange)="_onPageChange($event)"
+  (pageChange)="onPageChange($event)"
   [boundaryLinks]="true"
 >
   <ng-template ngbPaginationPages let-page let-pages="pages">
     <li class="ngb-custom-pages-item" *ngIf="pages.length > 0">
       <div class="mb-3 d-flex flex-nowrap px-2">
-        <label
-          id="paginationInputLabel"
-          for="paginationInput"
-          class="col-form-label me-2 ms-1"
-          >Page</label
-        >
+        <label for="paginator-input" class="col-form-label me-2 ms-1">
+          Page
+        </label>
         <input
           #i
           type="text"
           inputmode="numeric"
           pattern="[0-9]*"
           class="form-control tw-w-12"
-          id="paginationInput"
+          id="paginator-input"
           [value]="page"
           (keyup.enter)="selectPage(i.value, true)"
-          (input)="_formatInput($any($event).target)"
+          (input)="formatInput($any($event).target)"
         />
         <span
           id="paginationDescription"
