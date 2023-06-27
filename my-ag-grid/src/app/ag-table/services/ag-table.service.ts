@@ -8,17 +8,21 @@ import {
 } from 'rxjs';
 import { GridApi, SortChangedEvent } from 'ag-grid-community';
 import { Pagination, Sort } from '../../types/params.types';
-import { AGridEventListener, PaginatorConfig } from '../ag-grid.types';
+import {
+  AGridEventListener,
+  GetPaginationParams,
+  PaginatorConfig,
+} from '../ag-grid.types';
 import { PaginatorComponent } from '../components/paginator/paginator.component';
 
 @Injectable()
 export class AgTableService implements OnDestroy {
-  private _gridApi?: GridApi;
-  private _agGridListeners: AGridEventListener[] = [];
+  private gridApi?: GridApi;
+  private agGridListeners: AGridEventListener[] = [];
 
-  private _subscriptions: Subscription[] = [];
+  private subscriptions: Subscription[] = [];
 
-  private _paginator!: PaginatorComponent;
+  private paginator!: PaginatorComponent;
 
   public sortChanged$ = new BehaviorSubject<Sort | null>(null);
   public paginationChanged$ = new BehaviorSubject<number>(1);
@@ -30,42 +34,50 @@ export class AgTableService implements OnDestroy {
   public constructor() {}
 
   public registerApi(gridApi: GridApi): void {
-    this._gridApi = gridApi;
+    this.gridApi = gridApi;
   }
 
   public registerSort(defaultSort: Sort): void {
-    this.currentSort = defaultSort;
+    this.setSort(defaultSort);
 
     const onSortChangedEvent = (event: SortChangedEvent) => {
-      const sort = this._createSort(event);
-      this.currentSort = sort;
-      this.sortChanged$.next(sort);
+      const sort = this.createSort(event);
+      this.setSort(sort);
     };
 
-    if (!this._gridApi) throw new Error('Grid API was not registered');
+    if (!this.gridApi) throw new Error('Grid API was not registered');
 
-    this._gridApi.addEventListener('sortChanged', onSortChangedEvent);
+    this.gridApi.addEventListener('sortChanged', onSortChangedEvent);
 
-    this._agGridListeners.push({
+    this.agGridListeners.push({
       eventType: 'sortChanged',
       listener: onSortChangedEvent,
     });
+  }
+
+  public setSort(sort: Sort): void {
+    this.currentSort = sort;
+    this.sortChanged$.next(sort);
   }
 
   public registerPaginator(
     paginator: PaginatorComponent,
     config: PaginatorConfig
   ): void {
-    this._paginator = paginator;
+    this.paginator = paginator;
 
     const subscription = paginator.paginationChanged$.subscribe((page) => {
-      this.currentPage = page;
-      this.paginationChanged$.next(page);
+      this.setPagination(page);
     });
 
-    this._subscriptions.push(subscription);
+    this.subscriptions.push(subscription);
 
     this.setPaginatorConfig(config);
+  }
+
+  public setPagination(page: number): void {
+    this.currentPage = page;
+    this.paginationChanged$.next(page);
   }
 
   public setPaginatorConfig(
@@ -74,13 +86,10 @@ export class AgTableService implements OnDestroy {
   ): void {
     this.currentPage = config.page;
 
-    this._paginator.selectPage(
-      String(config.page),
-      shouldEmitPaginationChanged
-    );
+    this.paginator.selectPage(String(config.page), shouldEmitPaginationChanged);
     // If backend send count = 0, use 1 instead so that the paginator can be shown
-    this._paginator.collectionSize = config.totalItems || 1;
-    this._paginator.pageSize = config.itemsPerPage;
+    this.paginator.collectionSize = config.totalItems || 1;
+    this.paginator.pageSize = config.itemsPerPage;
     this.itemsPerPage = config.itemsPerPage;
   }
 
@@ -89,10 +98,11 @@ export class AgTableService implements OnDestroy {
     return this.currentSort;
   }
 
-  public getPagination(forPage: number = this.currentPage): Pagination {
-    const limit = this.itemsPerPage;
+  public getPagination({
+    forPage = this.currentPage,
+    limit = this.itemsPerPage,
+  }: GetPaginationParams): Pagination {
     const offset = limit * (forPage - 1);
-
     return { limit, offset };
   }
 
@@ -108,17 +118,17 @@ export class AgTableService implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this._agGridListeners.forEach((agridListener) => {
+    this.agGridListeners.forEach((agridListener) => {
       const { eventType, listener } = agridListener;
-      this._gridApi?.removeEventListener(eventType, listener);
+      this.gridApi?.removeEventListener(eventType, listener);
     });
 
-    this._subscriptions.forEach((subscription) => {
+    this.subscriptions.forEach((subscription) => {
       subscription.unsubscribe();
     });
   }
 
-  private _createSort(event: SortChangedEvent): Sort {
+  private createSort(event: SortChangedEvent): Sort {
     const sortedColumn = event.columnApi
       .getColumnState()
       .find((columnState) => columnState.sort !== null);

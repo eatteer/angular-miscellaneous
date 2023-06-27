@@ -8,3 +8,8 @@ export interface PaginatorConfig {
   totalItems: number;
   itemsPerPage: number;
 }
+
+export interface GetPaginationParams {
+  forPage?: number;
+  limit?: number;
+}

@@ -11,6 +11,7 @@ import { AgTableService } from 'src/app/ag-table/services/ag-table.service';
 import { EditableAgTableService } from 'src/app/ag-table/services/editable-ag-table.service';
 import { PaginatorComponent } from 'src/app/ag-table/components/paginator/paginator.component';
 import { Photo } from 'src/app/types/photo.type';
+import { GetPaginationParams } from 'src/app/ag-table/ag-grid.types';
 
 /**
  * USAGE
@@ -31,9 +32,9 @@ import { Photo } from 'src/app/types/photo.type';
 })
 export class UsersTableComponent {
   @ViewChild(PaginatorComponent)
-  private _paginator!: PaginatorComponent;
+  private paginator!: PaginatorComponent;
 
-  private _gridApi!: GridApi;
+  private api!: GridApi;
 
   public gridOptions: GridOptions = {
     suppressMultiSort: true,
@@ -43,35 +44,35 @@ export class UsersTableComponent {
   public photos: Photo[] = [];
 
   public constructor(
-    private _formBuilder: NonNullableFormBuilder,
-    private _photosService: PhotosService,
-    private _agTableService: AgTableService,
-    private _editableAgTableService: EditableAgTableService
+    private formBuilder: NonNullableFormBuilder,
+    private photosService: PhotosService,
+    private agTableService: AgTableService,
+    private editableAgTableService: EditableAgTableService
   ) {}
 
   public gridReady(event: GridReadyEvent): void {
-    this._gridApi = event.api;
+    this.api = event.api;
 
-    this._registerTableFeatures();
-    this._configureEditableRows();
-    this._configureDefaultColDef();
-    this._configureColumnsDef();
+    this.registerTableFeatures();
+    this.configureEditableRows();
+    this.configureDefaultColDef();
+    this.configureColumnsDef();
 
-    this._fetchPhotosFirstTime();
-    this._fetchPhotosOnChanges();
+    this.fetchPhotosFirstTime();
+    this.fetchPhotosOnChanges();
   }
 
   public undoAllChanges(): void {
-    this._editableAgTableService.undoAllChanges$.next();
+    this.editableAgTableService.undoAllChanges$.next();
   }
 
   public fetchPhotosOnFormChanges(): void {
-    const payload = this._getRequestPayload(1);
+    const payload = this.getRequestPayload({ forPage: 1 });
     console.log(payload);
-    this._photosService.getPhotos().subscribe((response) => {
+    this.photosService.getPhotos().subscribe((response) => {
       const { data, count } = response;
       this.photos = data;
-      this._agTableService.setPaginatorConfig({
+      this.agTableService.setPaginatorConfig({
         page: 1,
         totalItems: count,
         itemsPerPage: 10,
@@ -79,13 +80,13 @@ export class UsersTableComponent {
     });
   }
 
-  private _fetchPhotosFirstTime(): void {
-    const payload = this._getRequestPayload();
+  private fetchPhotosFirstTime(): void {
+    const payload = this.getRequestPayload();
     console.log(payload);
-    this._photosService.getPhotos().subscribe((response) => {
+    this.photosService.getPhotos().subscribe((response) => {
       const { data, count } = response;
       this.photos = data;
-      this._agTableService.registerPaginator(this._paginator, {
+      this.agTableService.registerPaginator(this.paginator, {
         page: 1,
         totalItems: count,
         itemsPerPage: 10,
@@ -93,42 +94,42 @@ export class UsersTableComponent {
     });
   }
 
-  private _fetchPhotosOnChanges(): void {
-    const combined$ = this._agTableService.createCombineForSortAndPagination();
+  private fetchPhotosOnChanges(): void {
+    const combined$ = this.agTableService.createCombineForSortAndPagination();
 
     combined$.subscribe((_) => {
-      const payload = this._getRequestPayload();
+      const payload = this.getRequestPayload();
       console.log(payload);
-      this._photosService.getPhotos().subscribe((response) => {
+      this.photosService.getPhotos().subscribe((response) => {
         const { data } = response;
         this.photos = data;
       });
     });
   }
 
-  private _getRequestPayload(forPage?: number) {
-    const sort = this._agTableService.getSort();
-    const page = this._agTableService.getPagination(forPage);
+  private getRequestPayload({ forPage, limit }: GetPaginationParams = {}) {
+    const sort = this.agTableService.getSort();
+    const page = this.agTableService.getPagination({ forPage });
     return { sort, page };
   }
 
-  private _registerTableFeatures(): void {
-    this._agTableService.registerApi(this._gridApi);
-    this._agTableService.registerSort({ order: 'desc', orderBy: 'title' });
+  private registerTableFeatures(): void {
+    this.agTableService.registerApi(this.api);
+    this.agTableService.registerSort({ order: 'desc', orderBy: 'title' });
   }
 
-  private _configureEditableRows(): void {
-    const form = this._formBuilder.group({
+  private configureEditableRows(): void {
+    const form = this.formBuilder.group({
       title: ['', [Validators.required]],
       url: ['', [Validators.required]],
       thumbnailUrl: ['', [Validators.required]],
     });
 
-    this._editableAgTableService.setForm(form);
+    this.editableAgTableService.setForm(form);
   }
 
-  private _configureDefaultColDef(): void {
-    this._gridApi.setDefaultColDef({
+  private configureDefaultColDef(): void {
+    this.api.setDefaultColDef({
       flex: 1,
       autoHeight: true,
       resizable: true,
@@ -138,13 +139,13 @@ export class UsersTableComponent {
       sortingOrder: ['asc', 'desc'],
       cellEditor: ControlCellEditorComponent,
       cellEditorParams: {
-        form: this._editableAgTableService.getForm(),
+        form: this.editableAgTableService.getForm(),
       } as ControlCellEditorParams,
     });
   }
 
-  private _configureColumnsDef(): void {
-    this._gridApi.setColumnDefs([
+  private configureColumnsDef(): void {
+    this.api.setColumnDefs([
       {
         headerName: 'Actions',
         colId: 'actions',
