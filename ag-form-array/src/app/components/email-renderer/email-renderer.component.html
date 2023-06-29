@@ -1,0 +1,11 @@
+<input
+  #input
+  type="text"
+  (keydown)="onKeyDown($event)"
+  [formControl]="control"
+  tabindex="1"
+  class="input input-bordered input-sm w-full"
+/>
+<button (click)="setDefaultValue()" tabIndex="2" class="btn btn-warning btn-xs">
+  Default
+</button>

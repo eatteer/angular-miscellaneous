@@ -1,0 +1,18 @@
+<main class="flex flex-col gap-4 p-8">
+  <ag-grid-angular
+    style="width: 100%"
+    class="ag-theme-alpine"
+    [gridOptions]="usersTable.gridOptions"
+    [columnDefs]="usersTable.columnDefs"
+    [defaultColDef]="usersTable.defaultColDef"
+    (gridReady)="onUsersGridReady($event)"
+  />
+  <ag-grid-angular
+    style="width: 100%"
+    class="ag-theme-alpine"
+    [gridOptions]="editableUsersTable.gridOptions"
+    [columnDefs]="editableUsersTable.columnDefs"
+    [defaultColDef]="editableUsersTable.defaultColDef"
+    (gridReady)="onEditableUsersGridReady($event)"
+  />
+</main>
