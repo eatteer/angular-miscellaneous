@@ -1,0 +1,7 @@
+<select #period [disabled]="isDisabled" (change)="onSelectChange(period.value)">
+  <option value="month" [selected]="defaultValue === 'month'">Month</option>
+  <option value="today" [selected]="defaultValue === 'today'">Today</option>
+  <option value="yesterday" [selected]="defaultValue === 'yesterday'">
+    Yesterday
+  </option>
+</select>
