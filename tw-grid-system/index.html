@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div
+      class="min-h-screen mx-auto grid grid-cols-[1fr_min(1280px,calc(100%-32px))_1fr] grid-rows-[65px,1fr,65px]"
+    >
+      <header class="col-span-full border border-slate-300">Header</header>
+      <div
+        class="grid gap-x-4 col-start-2 col-end-3 grid-cols-4 md:grid-cols-8 lg:grid-cols-12"
+      >
+        <main
+          class="col-span-4 md:col-span-8 lg:col-span-9 border border-slate-300"
+        >
+          Main
+        </main>
+        <aside
+          class="col-span-4 md:col-span-8 lg:col-span-3 border border-slate-300"
+        >
+          Aside
+        </aside>
+      </div>
+      <footer class="col-span-full border border-slate-300">Footer</footer>
+    </div>
+  </body>
+</html>

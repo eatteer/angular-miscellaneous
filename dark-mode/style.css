@@ -1,0 +1,70 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+:root {
+  --primary-color: rgb(0, 119, 184);
+  --primary-color-darken: rgb(0, 107, 166);
+  --white-color: white;
+  --black-color: #001219;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Poppins", sans-serif;
+}
+
+html.theme-light {
+  --background-color: var(--white-color);
+  --text-color: var(--black-color);
+}
+
+html.theme-dark {
+  --background-color: var(--black-color);
+  --text-color: var(--white-color);
+}
+
+body {
+  background-color: var(--background-color);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.intro-text {
+  font-size: 2rem;
+  color: var(--text-color);
+}
+
+.theme-config {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.toggle-button {
+  border: none;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 0.3rem;
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  transition: all 100ms;
+  cursor: pointer;
+}
+
+.toggle-button:hover {
+  background-color: var(--primary-color-darken);
+}
+
+.toggle-button:active {
+  transform: scale(0.95);
+}
