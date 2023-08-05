@@ -5,9 +5,9 @@ import { ObjectService } from '../services/object.service';
   name: 'hasKeys',
 })
 export class HasKeysPipe implements PipeTransform {
-  public constructor(private _objectService: ObjectService) {}
+  public constructor(private objectService: ObjectService) {}
 
   public transform<T extends {}>(object: T, ...args: any[]): boolean {
-    return this._objectService.hasKeys(object);
+    return this.objectService.hasKeys(object);
   }
 }

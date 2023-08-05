@@ -1,9 +1,9 @@
-<form [formGroup]="form" class="tw-p-4">
+<form [formGroup]="formGroup" class="tw-p-4">
   <!-- #region Header -->
   <header class="tw-flex tw-justify-between tw-items-center tw-gap-4 tw-mb-2">
     <h2 class="tw-text-3xl tw-font-extrabold">Filters</h2>
     <button
-      (click)="close()"
+      (click)="closeModal()"
       class="tw-dui-btn tw-dui-btn-xs tw-dui-btn-circle tw-dui-btn-outline"
     >
       <svg
@@ -131,7 +131,7 @@
     </button>
     <button
       *ngIf="shouldShowClear"
-      (click)="resetForm()"
+      (click)="clearFilters()"
       class="tw-dui-btn tw-flex-grow tw-mt-4"
     >
       Clear
