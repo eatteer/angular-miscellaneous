@@ -1,0 +1,19 @@
+<form [formGroup]="loremForm" (ngSubmit)="applyFilters()">
+  <select formControlName="telephone">
+    <option
+      *ngFor="
+        let option of loremFormSchema.getField('telephone').options | array
+      "
+      [value]="option.value"
+    >
+      {{ option.displayValue.translationKey }}
+    </option>
+  </select>
+  <button>Submit</button>
+  <ul>
+    <li *ngFor="let filter of appliedFilters | keyvalue">
+      {{ loremFormSchema.getLabelTranslationKey(filter.key) }}:
+      {{ loremFormSchema.getValueTranslationKey(filter.key, filter.value) }}
+    </li>
+  </ul>
+</form>

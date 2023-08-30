@@ -1,0 +1,26 @@
+<form [formGroup]="form">
+  <div *ngFor="let device of devicesOptions">
+    <input type="radio" formControlName="device" [value]="device.value" />
+    <label>{{ device.label }}</label>
+  </div>
+  <div formGroupName="address">
+    <select formControlName="city">
+      <option *ngFor="let city of cityOptions" [value]="city.value">
+        {{ city.label }}
+      </option>
+    </select>
+    <select formControlName="street">
+      <option *ngFor="let street of streetOptions" [value]="street.value">
+        {{ street.label }}
+      </option>
+    </select>
+  </div>
+  <input type="text" formControlName="name" />
+  <input type="text" formControlName="description" />
+  <select formControlName="price">
+    <option *ngFor="let price of priceOptions" [value]="price.value">
+      {{ price.label }}
+    </option>
+  </select>
+</form>
+<button (click)="applyFilters()">Apply filters</button>

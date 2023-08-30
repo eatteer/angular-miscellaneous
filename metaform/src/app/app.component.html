@@ -1,0 +1,47 @@
+<form [formGroup]="filtersForm">
+  <!-- Search -->
+  <section>
+    <input type="text" formControlName="search" />
+  </section>
+  <!-- Income ranges -->
+  <section>
+    <app-select
+      [options]="INCOME_RANGES_OPTIONS"
+      [displayValue]="'displayValue.translateKey'"
+      [(ngModel)]="selectedIncomeRangeOption"
+      [ngModelOptions]="{ standalone: true }"
+    />
+  </section>
+  <!-- Statuses -->
+  <section>
+    <div *ngFor="let statusOption of STATUS_OPTIONS">
+      <app-radio
+        [name]="'status'"
+        [value]="statusOption"
+        [(ngModel)]="selectedStatusOption"
+        [ngModelOptions]="{ standalone: true }"
+      />
+      <label [for]="statusOption.value">
+        {{ statusOption.displayValue!.translateKey! }}
+      </label>
+    </div>
+  </section>
+  <!-- Groups -->
+  <section>
+    <div *ngFor="let groupOption of GROUP_OPTIONS">
+      <app-checkbox
+        [value]="groupOption"
+        [(ngModel)]="checkedGroupOptions"
+        [ngModelOptions]="{ standalone: true }"
+        (onChecked)="onGroupOptionChecked($event)"
+      />
+      <label>{{ groupOption.displayValue!.translateKey! }}</label>
+    </div>
+  </section>
+  <button type="button" (click)="resetForm()">Reset form</button>
+</form>
+
+<pre>{{ filtersForm.value.search | json }}</pre>
+<pre>{{ selectedIncomeRangeOption | json }}</pre>
+<pre>{{ selectedStatusOption | json }}</pre>
+<pre>{{ checkedGroupOptions | json }}</pre>

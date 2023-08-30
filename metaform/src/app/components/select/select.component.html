@@ -1,0 +1,5 @@
+<select #select (change)="onSelectChange($event)" [(ngModel)]="selectedValue">
+  <option *ngFor="let option of options" [ngValue]="option">
+    {{ option | propertyByPath : displayValue }}
+  </option>
+</select>

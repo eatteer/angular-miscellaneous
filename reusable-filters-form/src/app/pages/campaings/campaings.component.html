@@ -21,7 +21,7 @@
             <p class="tw-text-sm">
               {{ key | titlecase }}: {{ appliedCampaignsFilters[key] }}
             </p>
-            <div
+            <button
               (click)="removeCampaignsFilter(key)"
               class="tw-dui-btn tw-dui-btn-error tw-dui-btn-xs tw-dui-btn-circle tw-dui-btn-outline"
             >
@@ -39,7 +39,7 @@
                   d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
-            </div>
+            </button>
           </div>
         </li>
       </ul>
