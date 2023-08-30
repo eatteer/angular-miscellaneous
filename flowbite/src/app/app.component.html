@@ -1,0 +1,33 @@
+<app-toast-list />
+<main class="flex justify-center items-center min-h-screen">
+  <button
+    app-tooltip
+    tid="success-toast"
+    tmessage="Open success toast"
+    type="button"
+    (click)="openToast('success')"
+    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+  >
+    Open success toast
+  </button>
+  <button
+    app-tooltip
+    tid="error-toast"
+    tmessage="Open error toast"
+    type="button"
+    (click)="openToast('error')"
+    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+  >
+    Open error toast
+  </button>
+  <button
+    app-tooltip
+    tid="warning-toast"
+    tmessage="Open warning toast"
+    type="button"
+    (click)="openToast('warning')"
+    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+  >
+    Open warning toast
+  </button>
+</main>

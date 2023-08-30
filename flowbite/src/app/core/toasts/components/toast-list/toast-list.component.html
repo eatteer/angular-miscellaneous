@@ -1,0 +1,5 @@
+<div id="toast-list" class="fixed top-4 right-4">
+  <ng-container *ngFor="let toast of toasts">
+    <app-toast-item [toast]="toast" />
+  </ng-container>
+</div>

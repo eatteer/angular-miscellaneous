@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #dee2e6;
+}
+
+.p-datatable-wrapper,
+.p-datatable {
+  @apply rounded-xl shadow-sm text-sm;
+
+  .p-column-resizer {
+    @apply bg-blue-300;
+    top: 50% !important;
+    width: 2px !important;
+    height: 40% !important;
+    transform: translateY(-50%);
+  }
+
+  th {
+    &:first-child {
+      @apply rounded-tl-xl;
+    }
+
+    &:last-child {
+      @apply rounded-tr-xl;
+    }
+  }
+}

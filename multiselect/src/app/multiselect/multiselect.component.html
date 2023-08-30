@@ -1,0 +1,46 @@
+<ul
+  cdkOverlayOrigin
+  #trigger="cdkOverlayOrigin"
+  (click)="toggleOptions()"
+  class="input input-bordered flex items-center gap-2 overflow-x-auto cursor-pointer hover:border-blue-500 transition"
+>
+  <li *ngFor="let item of value" class="badge badge-outline flex gap-1">
+    <p>{{ item.label }}</p>
+    <p
+      (click)="removeOption(item); $event.stopPropagation()"
+      class="cursor-pointer"
+    >
+      &times;
+    </p>
+  </li>
+</ul>
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="isOpen"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  (backdropClick)="closeOptions()"
+  cdkConnectedOverlayBackdropClass="bg-transparent"
+>
+  <ul class="mt-2 shadow p-4 bg-white rounded-lg border border-slate-200">
+    <li *ngFor="let option of options" class="mb-2">
+      <ng-container
+        *ngIf="groupTemplate; else groupLabel"
+        [ngTemplateOutlet]="groupTemplate"
+        [ngTemplateOutletContext]="{ $implicit: option }"
+      />
+      <ng-template #groupLabel>
+        <p class="font-bold mb-2">{{ option.label }}</p>
+      </ng-template>
+      <ul class="flex gap-2">
+        <li
+          *ngFor="let item of option.items"
+          class="badge badge-outline cursor-pointer hover:border-blue-500 transition"
+          (click)="selectOption(item)"
+        >
+          {{ item.label }}
+        </li>
+      </ul>
+    </li>
+  </ul>
+</ng-template>

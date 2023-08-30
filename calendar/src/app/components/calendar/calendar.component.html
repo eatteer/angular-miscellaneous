@@ -1,0 +1,35 @@
+<div class="tw-w-80 tw-p-4 tw-rounded-xl tw-shadow-sm tw-bg-white">
+  <header class="tw-flex tw-justify-between tw-gap-4 tw-mb-4">
+    <button
+      (click)="navigateToPreviousMonth()"
+      class="tw-btn tw-btn-primary tw-btn-xs"
+    >
+      Previous
+    </button>
+    <h2 class="tw-font-bold">{{ monthName }}</h2>
+    <button
+      (click)="navigateToNextMonth()"
+      class="tw-btn tw-btn-primary tw-btn-xs"
+    >
+      Next
+    </button>
+  </header>
+  <ol class="tw-grid tw-grid-cols-7 tw-gap-2">
+    <li
+      *ngFor="let day of WEEK_DAYS"
+      class="tw-grid tw-place-content-center tw-aspect-square"
+    >
+      {{ day | slice : 0 : 3 }}
+    </li>
+    <li
+      *ngFor="let day of daysInMonth; let first = first"
+      [ngStyle]="{ gridColumnStart: first ? day.dayOfWeek : 'auto' }"
+      [ngClass]="{
+        'tw-rounded-full tw-bg-primary tw-text-white': day.isSelected
+      }"
+      class="tw-grid tw-place-content-center tw-aspect-square"
+    >
+      {{ day.number }}
+    </li>
+  </ol>
+</div>

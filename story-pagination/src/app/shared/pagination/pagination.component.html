@@ -1,0 +1,43 @@
+<div class="flex gap-4">
+  <button
+    (click)="setFirstPage()"
+    [disabled]="!thereAreItems"
+    class="btn btn-sm btn-primary"
+  >
+    First
+  </button>
+  <button
+    (click)="setPreviousPage()"
+    [disabled]="!thereAreItems"
+    class="btn btn-sm btn-primary"
+  >
+    Previous
+  </button>
+  <ng-container *ngIf="thereAreItems; else thereAreNoItems">
+    <button
+      *ngFor="let page of pagesSlice"
+      (click)="setPage(page.number)"
+      [ngClass]="{ 'btn-primary': page.isCurrent }"
+      class="btn btn-sm"
+    >
+      {{ page.number }}
+    </button>
+  </ng-container>
+  <ng-template #thereAreNoItems>
+    <button class="btn btn-sm" disabled>1</button>
+  </ng-template>
+  <button
+    (click)="setNextPage()"
+    [disabled]="!thereAreItems"
+    class="btn btn-sm btn-primary"
+  >
+    Next
+  </button>
+  <button
+    (click)="setLastPage()"
+    [disabled]="!thereAreItems"
+    class="btn btn-sm btn-primary"
+  >
+    Last
+  </button>
+</div>

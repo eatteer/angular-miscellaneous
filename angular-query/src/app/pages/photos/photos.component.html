@@ -1,0 +1,8 @@
+<main class="container">
+  <h1>Photos</h1>
+  <button (click)="addPhoto()">Add photo</button>
+  <ng-container *ngIf="photos$ | async as photos">
+    <div *ngIf="photos | isRefreshing">Refreshing photos...</div>
+    <app-photos-list *ngIf="photos.data" [photos]="photos.data" />
+  </ng-container>
+</main>

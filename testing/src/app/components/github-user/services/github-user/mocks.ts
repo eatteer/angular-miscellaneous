@@ -1,0 +1,46 @@
+import {
+  GetGithubUserDto,
+  GithubUser,
+} from '../../types/github-user.interface';
+
+export const getGithubUserDtoMock: GetGithubUserDto = {
+  login: 'eatteer',
+  id: 55556476,
+  node_id: 'MDQ6VXNlcjU1NTU2NDc2',
+  avatar_url: 'https://avatars.githubusercontent.com/u/55556476?v=4',
+  gravatar_id: '',
+  url: 'https://api.github.com/users/eatteer',
+  html_url: 'https://github.com/eatteer',
+  followers_url: 'https://api.github.com/users/eatteer/followers',
+  following_url: 'https://api.github.com/users/eatteer/following{/other_user}',
+  gists_url: 'https://api.github.com/users/eatteer/gists{/gist_id}',
+  starred_url: 'https://api.github.com/users/eatteer/starred{/owner}{/repo}',
+  subscriptions_url: 'https://api.github.com/users/eatteer/subscriptions',
+  organizations_url: 'https://api.github.com/users/eatteer/orgs',
+  repos_url: 'https://api.github.com/users/eatteer/repos',
+  events_url: 'https://api.github.com/users/eatteer/events{/privacy}',
+  received_events_url: 'https://api.github.com/users/eatteer/received_events',
+  type: 'User',
+  site_admin: false,
+  name: 'Juan Vanegas',
+  company: 'Inlaze',
+  blog: 'https://portfolio-eatteer.vercel.app/',
+  location: 'Colombia, Risaralda, Pereira',
+  email: null,
+  hireable: null,
+  bio: 'Curious frontend developer 👨‍💻❣ from Colombia',
+  twitter_username: null,
+  public_repos: 61,
+  public_gists: 4,
+  followers: 5,
+  following: 6,
+  created_at: '2019-09-19T18:30:46Z',
+  updated_at: '2023-07-24T12:16:20Z',
+};
+
+export const githubUserMock: GithubUser = {
+  login: 'eatteer',
+  photo: 'https://avatars.githubusercontent.com/u/55556476?v=4',
+  location: 'Colombia, Risaralda, Pereira',
+  followers: 5,
+};

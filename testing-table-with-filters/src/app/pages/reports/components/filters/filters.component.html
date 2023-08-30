@@ -1,0 +1,13 @@
+<div class="flex gap-2">
+  <div *ngFor="let group of filtersService.GROUPS">
+    <div class="form-control w-max">
+      <label class="label cursor-pointer space-x-2">
+        <span class="label-text">{{ group.label }}</span>
+        <app-checkbox
+          [value]="group"
+          [(ngModel)]="filtersService.checkedGroups"
+        />
+      </label>
+    </div>
+  </div>
+</div>

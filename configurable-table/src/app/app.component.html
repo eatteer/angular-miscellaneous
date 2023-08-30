@@ -1,0 +1,16 @@
+<main class="m-4">
+  <input
+    type="checkbox"
+    class="toggle mb-2"
+    [formControl]="columnsModeControl"
+  />
+  <ag-grid-angular
+    style="width: 100%; height: 100%"
+    class="ag-theme-alpine"
+    [gridOptions]="gridOptions"
+    [defaultColDef]="defaultColDef"
+    [columnDefs]="columnDefs"
+    [rowData]="rowData$ | async"
+    (gridReady)="onGridReady($event)"
+  />
+</main>

@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply tw-min-h-screen tw-bg-slate-100;
+  }
+
+  .tw-input.ng-invalid.ng-touched {
+    @apply tw-input-error;
+  }
+}
+
+@layer components {
+  .app-card {
+    @apply tw-p-4 tw-rounded-xl tw-shadow-sm tw-bg-white;
+  }
+}

@@ -1,0 +1,8 @@
+<main class="tw-min-h-screen tw-grid tw-place-content-center">
+  <app-autocomplete
+    [suggestions]="suggestions"
+    [(ngModel)]="selectedSuggestion"
+    [displayValueKey]="'displayValue'"
+    (onQueryChange)="onQueryChange($event)"
+  />
+</main>

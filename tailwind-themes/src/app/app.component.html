@@ -1,0 +1,22 @@
+<main class="flex justify-center items-center min-h-screen">
+  <div class="flex flex-col gap-4 max-w-lg">
+    <button class="bg-blue-500 py-2 px-4 rounded" (click)="toggleTheme()">
+      Toggle theme
+    </button>
+    <button class="bg-primary py-2 px-4 rounded">Click me</button>
+    <p class="text-primary">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus
+      recusandae illo nihil vero? Veniam ratione vero, expedita repellat neque
+      cumque voluptatibus assumenda maiores voluptate sapiente labore tenetur
+      suscipit accusamus ut.
+    </p>
+    <div>
+      <p class="text-primary">
+        If light then primary light, if dark them primary dark (Using tw-colors)
+      </p>
+      <p class="text-blue-500 dark:text-red-500">
+        If light then blue, if dark then red (Using :dark)
+      </p>
+    </div>
+  </div>
+</main>

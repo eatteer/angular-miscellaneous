@@ -1,0 +1,15 @@
+<h2>Create a note</h2>
+<form [formGroup]="createNoteForm" (ngSubmit)="createNote()">
+  <input type="text" placeholder="Title" formControlName="title" />
+  <input type="text" placeholder="Content" formControlName="content" />
+  <button type="submit" [disabled]="createNoteForm.invalid">Create note</button>
+</form>
+<h2>Notes</h2>
+<ul>
+  <li *ngFor="let note of notes$ | async">
+    <article>
+      <h3>{{ note.title }}</h3>
+      <p>{{ note.content }}</p>
+    </article>
+  </li>
+</ul>

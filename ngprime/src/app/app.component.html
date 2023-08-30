@@ -1,0 +1,43 @@
+<main class="m-8">
+  <div class="w-max mx-auto">
+    <p-table
+      [value]="users"
+      [columns]="columns"
+      [reorderableColumns]="true"
+      [resizableColumns]="true"
+    >
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th
+            *ngFor="let column of columns"
+            [id]="column.field"
+            [pSortableColumn]="column.field"
+            pReorderableColumn
+            pResizableColumn
+          >
+            <span>{{ column.header }}</span>
+            <p-sortIcon [field]="column.field" />
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user let-columns="columns">
+        <tr>
+          <td *ngFor="let column of columns">
+            <ng-container ngSwitch="column.field">
+              <app-ip-address *ngSwitchCase="'ipAddress'" [user]="user" />
+              <span *ngSwitchCase="'lastName'">{{ user.lastName }}</span>
+              <span *ngSwitchDefault>{{ user[column.field] }}</span>
+            </ng-container>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <p-paginator
+      [rows]="10"
+      [totalRecords]="120"
+      [rowsPerPageOptions]="[10, 20, 30]"
+      styleClass="mt-2"
+    />
+  </div>
+</main>
+<p-toast />

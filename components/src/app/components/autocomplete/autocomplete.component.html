@@ -1,0 +1,40 @@
+<input
+  cdkOverlayOrigin
+  #trigger="cdkOverlayOrigin"
+  (click)="openSuggestions(); queryChange($event)"
+  (input)="queryChange($event)"
+  (keydown)="onKeyDown($event)"
+  type="text"
+  class="deb-input"
+/>
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="isOpen"
+  [cdkConnectedOverlayOffsetY]="8"
+  [cdkConnectedOverlayDisableClose]="true"
+  (overlayOutsideClick)="closeSuggestions()"
+>
+  <div
+    *ngIf="suggestions.length > 0"
+    class="tw-min-w-[230px] tw-shadow-xl tw-bg-white tw-py-2 tw-rounded-lg"
+  >
+    <ul cdkListbox (cdkListboxValueChange)="selectSuggestion($event.value[0])">
+      <li
+        *ngFor="let suggestion of suggestions"
+        (click)="selectSuggestion(suggestion)"
+        [cdkOption]="suggestion"
+        class="tw-p-2 hover:tw-bg-violet-100 tw-cursor-pointer"
+      >
+        <ng-template
+          *ngIf="suggestionTemplate; else defaultSuggestionTemplate"
+          [ngTemplateOutlet]="suggestionTemplate"
+          [ngTemplateOutletContext]="{ $implicit: suggestion }"
+        />
+        <ng-template #defaultSuggestionTemplate>
+          {{ getDisplayValue(suggestion) }}
+        </ng-template>
+      </li>
+    </ul>
+  </div>
+</ng-template>

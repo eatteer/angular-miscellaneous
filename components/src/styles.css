@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "@angular/cdk/overlay-prebuilt.css";
+
+body {
+  @apply tw-bg-slate-100;
+}
+
+.deb-input {
+  @apply tw-p-2 tw-border tw-border-slate-500 tw-rounded-lg focus:tw-outline focus:tw-ring tw-outline-violet-500 tw-ring-violet-300;
+}

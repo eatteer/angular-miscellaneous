@@ -1,0 +1,3 @@
+.cdk-option-active {
+  @apply tw-bg-violet-100 tw-outline-none;
+}

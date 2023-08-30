@@ -1,0 +1,23 @@
+<main class="container">
+  <h1>Animes</h1>
+  <input type="text" placeholder="Anime name" [formControl]="queryControl" />
+  <ng-container *ngIf="animes$ | async as animes">
+    <div *ngIf="animes.isLoading">Loading animes...</div>
+    <div *ngIf="animes.isRefetching">Refreshing animes...</div>
+    <app-anime-list *ngIf="animes.data" [animes]="animes.data.data" />
+    <button
+      *ngIf="animes.data"
+      [disabled]="animes.data.pagination.current_page === 1"
+      (click)="getPreviousPage()"
+    >
+      Previous
+    </button>
+    <button
+      *ngIf="animes.data"
+      [disabled]="!animes.data.pagination.has_next_page"
+      (click)="getNextPage()"
+    >
+      Next
+    </button>
+  </ng-container>
+</main>

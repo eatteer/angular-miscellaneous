@@ -1,0 +1,41 @@
+<div>
+  Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente consectetur
+  qui ut vel, nam debitis, architecto rerum officiis consequatur, perspiciatis
+  aliquam vitae. Totam, iste commodi. Illum placeat eum repellendus cum. Libero
+  ipsa, necessitatibus vitae nisi fuga fugiat animi quo optio, pariatur tenetur
+  modi impedit quas dignissimos! Aut assumenda obcaecati et possimus deleniti
+  veniam, optio sit aperiam laboriosam dolores at dolorem? Ex voluptate libero
+  deleniti obcaecati facilis laudantium cupiditate soluta eveniet distinctio.
+  Eveniet cumque reprehenderit unde, nobis illum velit numquam blanditiis nisi
+  laboriosam nesciunt voluptas nemo expedita odit culpa repellendus quasi. Magni
+  omnis, asperiores quo nesciunt consequuntur accusantium veritatis aut veniam
+  aliquid ipsum earum recusandae assumenda nam officia tenetur commodi
+  architecto! Rerum vel, deleniti omnis unde nemo laudantium vero. Magnam,
+  quisquam! Veniam eius maiores animi ea, vel molestias optio incidunt modi
+  quam? Veritatis delectus itaque facilis voluptatum. Cumque molestias at itaque
+  excepturi, dicta, velit quaerat exercitationem obcaecati dolorum aut, eos
+  doloremque. Est distinctio cumque neque aspernatur ullam alias incidunt, quasi
+  labore assumenda id odio ipsam totam iure et cum temporibus eos quas
+  praesentium esse in molestias nihil laboriosam, explicabo ducimus? Placeat.
+  Commodi itaque blanditiis cumque amet ipsum aut doloribus minima laboriosam,
+  quidem tempora consequuntur adipisci quae officia, nam nisi quia libero optio
+  quasi eligendi aperiam asperiores enim quis molestias. At, amet! Dolorum,
+  debitis! Ex hic vitae dolores saepe, dicta, optio nulla laborum praesentium
+  vel, ipsum voluptatem quod voluptates nihil magnam vero necessitatibus
+  delectus ea quaerat! Quaerat omnis labore laborum itaque sapiente.
+</div>
+<div
+  #photosList
+  infiniteScroll
+  [infiniteScrollDistance]="1"
+  (scrolled)="onPhotosListBottomReached()"
+  (scroll)="onScroll()"
+  class="photos-list"
+>
+  <article *ngFor="let photo of photos$ | async" class="photo-card">
+    <p>ID: {{ photo.id }}</p>
+    <p>Album ID: {{ photo.albumId }}</p>
+    <p>Thumbnail URL: {{ photo.thumbnailUrl }}</p>
+    <p>URL: {{ photo.url }}</p>
+  </article>
+</div>

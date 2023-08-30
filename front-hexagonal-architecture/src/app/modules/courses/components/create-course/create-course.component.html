@@ -1,0 +1,33 @@
+<div class="app-card">
+  <h2 class="tw-mb-4 tw-text-2xl tw-font-extrabold">Create course</h2>
+  <form
+    [formGroup]="createCourseForm"
+    (ngSubmit)="createCourse()"
+    class="tw-w-96 tw-flex tw-flex-col tw-gap-4"
+  >
+    <input
+      formControlName="title"
+      type="text"
+      placeholder="Title"
+      class="tw-input tw-input-bordered"
+    />
+    <div class="tw-flex tw-gap-2">
+      <input
+        formControlName="imageUrl"
+        type="text"
+        placeholder="Image URL"
+        class="tw-input tw-input-bordered tw-flex-1"
+      />
+      <button type="button" (click)="setRandomImageUrl()" class="tw-btn">
+        Random
+      </button>
+    </div>
+    <button
+      type="submit"
+      [disabled]="createCourseForm.invalid"
+      class="tw-btn tw-btn-primary"
+    >
+      Create
+    </button>
+  </form>
+</div>

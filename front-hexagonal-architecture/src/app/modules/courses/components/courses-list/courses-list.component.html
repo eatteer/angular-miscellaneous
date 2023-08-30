@@ -1,0 +1,19 @@
+<div class="app-card">
+  <h2 class="tw-mb-4 tw-text-2xl tw-font-extrabold">Courses</h2>
+  <ng-container *ngIf="courses$ | async as courses">
+    <!-- If courses -->
+    <ul *ngIf="courses.length > 0; else noCourses">
+      <li *ngFor="let course of courses$ | async">
+        <p class="tw-mb-1 tw-font-medium">{{ course.title }}</p>
+        <img
+          [src]="course.imageUrl"
+          [alt]="course.title"
+          class="tw-w-12 tw-rounded tw-border tw-border-slate-300"
+        />
+      </li>
+    </ul>
+
+    <!-- If not courses -->
+    <ng-template #noCourses> No courses</ng-template>
+  </ng-container>
+</div>
