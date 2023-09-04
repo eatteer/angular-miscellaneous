@@ -1,0 +1,16 @@
+// Select
+:host {
+  @apply tw-relative;
+}
+
+.select-options-toggler {
+  @apply tw-w-full tw-py-2 tw-px-4 tw-text-left tw-border tw-border-slate-300;
+}
+
+.select-options {
+  @apply tw-absolute tw-min-w-full tw-border tw-border-slate-300 tw-bg-white;
+}
+
+.select-option {
+  @apply tw-text-left tw-py-2 tw-px-4 tw-cursor-pointer hover:tw-bg-slate-300;
+}

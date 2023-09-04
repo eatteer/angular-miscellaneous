@@ -1,0 +1,23 @@
+<button #selectOptionsToggler class="select-options-toggler" (click)="toggleOptions()">
+  {{ selectedOption ? selectedOption[optionLabel] : placeholder }}
+</button>
+<div #selectOptions class="select-options" [ngClass]="getDynamicClasses()">
+  <div
+    *ngFor="let option of options"
+    [id]="generateOptionId(option)"
+    (click)="onSelectedOption(option)"
+  >
+    <!-- If optionTemplate then render it for each element, 
+        else render the default element. -->
+    <ng-container
+      [ngTemplateOutlet]="optionTemplate ?? defaultOptionTemplate"
+      [ngTemplateOutletContext]="{ $implicit: option }"
+    >
+      <ng-template #defaultOptionTemplate>
+        <div class="select-option">
+          {{ option[optionLabel] }}
+        </div>
+      </ng-template>
+    </ng-container>
+  </div>
+</div>

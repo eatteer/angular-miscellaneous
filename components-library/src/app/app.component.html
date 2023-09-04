@@ -1,0 +1,17 @@
+<main
+  class="tw-flex tw-flex-col tw-gap-4 tw-justify-center tw-items-center tw-min-h-screen"
+>
+  <app-select
+    [options]="options"
+    [(ngModel)]="selectedOption"
+    class="tw-w-52"
+  />
+  <button (click)="toggleOffcanvas()" class="deb-btn deb-btn-primary">
+    Toggle offcanvas
+  </button>
+  <app-offcanvas [(isOpen)]="isOffcanvasOpen" direction="left">
+    <div class="tw-p-4">
+      <p>Offcanvas content</p>
+    </div>
+  </app-offcanvas>
+</main>

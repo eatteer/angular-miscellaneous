@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html.tw-light {
+  --color-primary: #877617;
+}
+
+html.tw-dark {
+  --color-primary: #fff1a4;
+}

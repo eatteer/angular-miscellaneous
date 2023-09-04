@@ -1,0 +1,8 @@
+<div class="offcanvas" [ngClass]="getDynamicClassesForCanvas()">
+  <ng-content />
+</div>
+<div
+  class="offcanvas-overlay"
+  (click)="closeOffcanvas()"
+  [ngClass]="getDynamicClasesForOverlay()"
+></div>

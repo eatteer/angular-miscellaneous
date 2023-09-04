@@ -1,0 +1,13 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@layer components {
+  .deb-btn {
+    @apply tw-py-2 tw-px-4 tw-font-bold tw-rounded;
+  }
+
+  .deb-btn-primary {
+    @apply tw-bg-blue-500 tw-text-white;
+  }
+}

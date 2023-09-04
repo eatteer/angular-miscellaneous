@@ -1,0 +1,47 @@
+// OFFCANVAS STYLES
+
+.offcanvas {
+  @apply tw-fixed tw-z-50 tw-bg-white tw-border-r tw-border-slate-300 tw-transition-all tw-ease-in-out;
+}
+
+.offcanvas-left {
+  @apply tw-top-0 tw-left-0 -tw-translate-x-full tw-h-full;
+}
+
+.offcanvas-left.offcanvas-open {
+  @apply tw-translate-x-0;
+}
+
+.offcanvas-right {
+  @apply tw-top-0 tw-right-0 tw-translate-x-full tw-h-full;
+}
+
+.offcanvas-right.offcanvas-open {
+  @apply tw-translate-x-0;
+}
+
+.offcanvas-top {
+  @apply tw-top-0 tw-left-0 -tw-translate-y-full tw-w-full;
+}
+
+.offcanvas-top.offcanvas-open {
+  @apply tw-translate-y-0;
+}
+
+.offcanvas-bottom {
+  @apply tw-bottom-0 tw-left-0 tw-translate-y-full tw-w-full;
+}
+
+.offcanvas-bottom.offcanvas-open {
+  @apply tw-translate-y-0;
+}
+
+// OVERLAY STYLES
+
+.offcanvas-overlay {
+  @apply tw-fixed tw-z-40 tw-inset-0 tw-opacity-0 tw-bg-slate-950/30 tw-transition-all tw-ease-in-out tw-pointer-events-none;
+}
+
+.offcanvas-overlay.offcanvas-overlay-open {
+  @apply tw-opacity-100 tw-pointer-events-auto;
+}
