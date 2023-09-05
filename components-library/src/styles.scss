@@ -2,6 +2,12 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+@layer base {
+  svg-icon svg {
+    @apply tw-w-6 tw-h-6;
+  }
+}
+
 @layer components {
   .deb-btn {
     @apply tw-py-2 tw-px-4 tw-font-bold tw-rounded;
@@ -9,5 +15,13 @@
 
   .deb-btn-primary {
     @apply tw-bg-blue-500 tw-text-white;
+  }
+
+  .deb-fw-input {
+    @apply tw-flex tw-items-center tw-border tw-border-slate-400 tw-rounded focus-within:tw-border-violet-500 hover:tw-border-violet-500;
+  }
+
+  .deb-fw-input input {
+    @apply tw-rounded tw-outline-none tw-p-3;
   }
 }

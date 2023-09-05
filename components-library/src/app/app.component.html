@@ -9,6 +9,16 @@
   <button (click)="toggleOffcanvas()" class="deb-btn deb-btn-primary">
     Toggle offcanvas
   </button>
+  <div class="deb-fw-input">
+    <input
+      type="text"
+      placeholder="Lorem"
+      [formControl]="text"
+      [appClearInputBy]="clearTrigger"
+    />
+    <app-clear-trigger #clearTrigger class="tw-pr-3" />
+  </div>
+  <svg-icon name="google" />
   <app-offcanvas [(isOpen)]="isOffcanvasOpen" direction="left">
     <div class="tw-p-4">
       <p>Offcanvas content</p>

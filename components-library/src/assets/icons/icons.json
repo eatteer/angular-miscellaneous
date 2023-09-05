@@ -1,0 +1,13 @@
+{
+  "iconImageFiles": [
+    {
+      "iconName": "google",
+      "iconPath": "/assets/icons/google.svg"
+    },
+    {
+      "iconName": "close",
+      "iconPath": "/assets/icons/close.svg"
+    }
+  ],
+  "customIcons": []
+}

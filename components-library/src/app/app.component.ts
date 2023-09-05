@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,8 @@ export class AppComponent {
   public selectedOption: any = this.options.at(0);
 
   public isOffcanvasOpen: boolean = false;
+
+  public text: FormControl<string> = new FormControl('', { nonNullable: true });
 
   public toggleOffcanvas(): void {
     this.isOffcanvasOpen = !this.isOffcanvasOpen;
