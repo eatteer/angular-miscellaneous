@@ -1,0 +1,15 @@
+.input {
+  @apply tw-rounded tw-border-2 tw-border-slate-500 tw-outline-none;
+}
+
+.input:focus:not(.invalid):not(.valid) {
+  @apply tw-border-blue-500;
+}
+
+.invalid {
+  @apply tw-border-red-500;
+}
+
+.valid {
+  @apply tw-border-green-500;
+}

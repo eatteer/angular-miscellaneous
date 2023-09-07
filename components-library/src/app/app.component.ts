@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -23,4 +23,9 @@ export class AppComponent {
   public toggleOffcanvas(): void {
     this.isOffcanvasOpen = !this.isOffcanvasOpen;
   }
+
+  public control = new FormControl('', [
+    Validators.required,
+    Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
+  ]);
 }

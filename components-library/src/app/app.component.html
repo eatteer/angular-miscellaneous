@@ -19,6 +19,9 @@
     <app-clear-trigger #clearTrigger class="tw-pr-3" />
   </div>
   <svg-icon name="google" />
+  <app-input #input [formControl]="control" [validateOnInput]="false" />
+  <button (click)="input.manuallyCheckValidity()">Submit</button>
+  <pre>isInvalid {{ input.isInvalid }}</pre>
   <app-offcanvas [(isOpen)]="isOffcanvasOpen" direction="left">
     <div class="tw-p-4">
       <p>Offcanvas content</p>

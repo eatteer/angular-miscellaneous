@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ClearInputDirective } from './shared/directives/clear-input/clear-input.directive';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ClearTriggerComponent } from './library/clear-trigger/clear-trigger.component';
+import { InputModule } from './library/input/input.module';
 
 @NgModule({
   declarations: [AppComponent, ClearInputDirective, ClearTriggerComponent],
@@ -25,6 +26,7 @@ import { ClearTriggerComponent } from './library/clear-trigger/clear-trigger.com
     }),
     SelectModule,
     OffcanvasModule,
+    InputModule,
   ],
 
   bootstrap: [AppComponent],
